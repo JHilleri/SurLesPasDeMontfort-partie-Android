@@ -6,6 +6,7 @@
 #include <QQmlContext>
 #include <QStringList>
 #include "site.h"
+#include "basededonnees.h"
 
 class FenetreSite : public QObject
 {
@@ -25,6 +26,7 @@ private:
     Site *m_site;
     QStringList m_liste;
      QQmlApplicationEngine m_engine;
+     BaseDeDonnees bdd;
 };
 
 #endif // FENETRESITE_H

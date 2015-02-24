@@ -4,13 +4,23 @@
 FenetreSite::FenetreSite(QObject *parent) : QObject(parent)
 {
     m_site = new Site;
+/*
+    m_site->ajouter(new Borne("Le calvaire symbole monfortain","St Laurent sur sevre","calvaire","",1,"",""));
+    m_site->ajouter(new Borne("Chapelle de la Sagesse","St Laurent sur sevre","chapelle","",2,"",""));
+    m_site->ajouter(new Borne("Maison longue","St Laurent sur sevre","maison","",3,"",""));
+    m_site->ajouter(new Borne("Pont Eiffel","St Laurent sur sevre","maison","",4,"",""));
+*/
 
-    m_site->ajouter(new Borne("Le calvaire symbole monfortain","St Laurent sur sevre","calvaire","",1));
-    m_site->ajouter(new Borne("Chapelle de la Sagesse","St Laurent sur sevre","chapelle","",2));
-    m_site->ajouter(new Borne("Maison longue","St Laurent sur sevre","maison","",3));
-    m_site->ajouter(new Borne("Pont Eiffel","St Laurent sur sevre","maison","",4));
+    bdd.ajouterEnregistrement(new Borne("Le calvaire symbole monfortain","St Laurent sur sevre","calvaire","",1,"",""));
+    bdd.ajouterEnregistrement(new Borne("Chapelle de la Sagesse","St Laurent sur sevre","chapelle","",2,"",""));
+    bdd.ajouterEnregistrement(new Borne("Maison longue","St Laurent sur sevre","maison","",3,"",""));
+    bdd.ajouterEnregistrement(new Borne("Pont Eiffel","St Laurent sur sevre","maison","",4,"",""));
 
+    bdd.remplirTab(m_site);
     m_liste = m_site->getNames();
+
+
+    //m_liste = bdd.liste();
 }
 
 void FenetreSite::start()

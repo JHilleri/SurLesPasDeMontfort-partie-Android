@@ -12,6 +12,7 @@ public:
     ~Site();
     void ajouter(Borne *nouvelleBorne);
     QStringList getNames();
+    void clear();
 private:
     QList<Borne *> m_liste;
 };

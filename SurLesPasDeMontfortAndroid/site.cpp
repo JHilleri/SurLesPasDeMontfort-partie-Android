@@ -7,7 +7,7 @@ Site::Site()
 
 Site::~Site()
 {
-
+    this->clear();
 }
 
 void Site::ajouter(Borne *nouvelleBorne)
@@ -26,12 +26,18 @@ QStringList Site::getNames()
 {
     QStringList list;
     QListIterator<Borne *> i(m_liste);
-    /*
-    for(i=m_liste.begin();i!=m_liste.end();i++)
-    {
-        list.append(i.i.reference->nom());
-    }*/
+
+
     while(i.hasNext())
         list.append(i.next()->nom());
     return list;
+}
+
+void Site::clear()
+{
+    QListIterator<Borne *> i(m_liste);
+
+    while(i.hasNext())
+        delete i.next();
+    m_liste.clear();
 }

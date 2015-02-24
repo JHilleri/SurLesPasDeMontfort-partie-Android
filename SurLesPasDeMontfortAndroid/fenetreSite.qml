@@ -38,7 +38,7 @@ ApplicationWindow{
 
     MessageDialog {
             id: messageDialog
-            title: qsTr("borne selectionne")
+            title: qsTr("borne sélectionné")
 
             function show(caption) {
                 messageDialog.text = "vous aver selectionné la borne : " + caption;

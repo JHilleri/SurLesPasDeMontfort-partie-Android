@@ -10,10 +10,11 @@ public:
     ~RessourceMultimedia();
     void afficher();
 
-private:
     QString m_addresse;
     QString m_text;
     typesFichier m_type;
+private:
+
 };
 
 #endif // RESSOURCEMULTIMEDIA_H
