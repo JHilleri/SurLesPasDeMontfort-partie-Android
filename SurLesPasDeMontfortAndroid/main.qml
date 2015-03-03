@@ -8,35 +8,25 @@ ApplicationWindow {
     width: 640
     height: 480
     visible: true
+    id:root
 
-    menuBar: MenuBar {
-        Menu {
-            title: qsTr("&File")
-            MenuItem {
-                text: qsTr("&Open")
-                onTriggered: messageDialog.show(qsTr("Open action triggered"));
-            }
-            MenuItem {
-                text: qsTr("E&xit")
-                onTriggered: Qt.quit();
-            }
+
+    FenetreSite{
+        id:fenetreListe
+        visible: true
+        onOuvrirFenetreBorne: {
+            fenetreListe.visible = false;
+            fenetreBorne.visible = true;
+            fenetreBorne.focus = true;
         }
     }
-
-    MainForm {
-        anchors.fill: parent
-        button1.onClicked: messageDialog.show(qsTr("Button 1 pressed"))
-        button2.onClicked: messageDialog.show(qsTr("Button 2 pressed"))
-        button3.onClicked: messageDialog.show(qsTr("Button 3 pressed"))
-    }
-
-    MessageDialog {
-        id: messageDialog
-        title: qsTr("May I have your attention, please?")
-
-        function show(caption) {
-            messageDialog.text = caption;
-            messageDialog.open();
+    FenetreBorne{
+        id:fenetreBorne
+        visible: false
+        onRetour: {
+            fenetreListe.visible = true;
+            fenetreBorne.visible = false;
+            fenetreBorne.focus = false;
         }
     }
 }

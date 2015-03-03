@@ -3,12 +3,14 @@ import QtQuick.Controls 1.3
 import QtQuick.Window 2.2
 import QtQuick.Dialogs 1.2
 
-ApplicationWindow{
+Rectangle{
     id:root
-    title: qsTr("Sur les pas de montfort")
-    width: 640
-    height: 480
+    //title: qsTr("Sur les pas de montfort")
+    //width: 640
+    //height: 480
+    anchors.fill: parent
     visible: true
+    signal ouvrirFenetreBorne;
 
     ListView{
         id: liste
@@ -30,7 +32,9 @@ ApplicationWindow{
             MouseArea{
                 anchors.fill: parent
                 onClicked: {
-                    messageDialog.show(modelData);
+                    //messageDialog.show(modelData);
+                    fenetreSite.ouvrirFenetreBorne(modelData);
+                    ouvrirFenetreBorne();
                 }
             }
         }

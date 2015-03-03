@@ -1,7 +1,7 @@
 #include "fenetresite.h"
 #include <QString>
 
-FenetreSite::FenetreSite(QObject *parent) : QObject(parent)
+FenetreSite::FenetreSite(QObject *parent) : QObject(parent),borneVide("","","","",0,"","")
 {
     m_site = new Site;
 /*
@@ -19,16 +19,16 @@ FenetreSite::FenetreSite(QObject *parent) : QObject(parent)
     bdd.remplirTab(m_site);
     m_liste = m_site->getNames();
 
-
-    //m_liste = bdd.liste();
 }
 
 void FenetreSite::start()
 {
     m_engine.rootContext()->setContextProperty("fenetreSite",this);
     m_engine.rootContext()->setContextProperty("site",QVariant::fromValue(this->m_liste));
+    m_engine.rootContext()->setContextProperty("borne",&borneVide);
+
     qDebug(QString::number(m_liste.size()).toStdString().c_str() );
-    m_engine.load(QUrl(QStringLiteral("qrc:/fenetreSite.qml")));
+    m_engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
 }
 
 FenetreSite::~FenetreSite()
@@ -44,4 +44,10 @@ QStringList FenetreSite::site()
 void FenetreSite::setSite( QStringList site)
 {
     m_liste = site;
+}
+
+
+void FenetreSite::ouvrirFenetreBorne(QString nomBorne)
+{
+    m_engine.rootContext()->setContextProperty("borne",this->m_site->getBorneByName(nomBorne));
 }

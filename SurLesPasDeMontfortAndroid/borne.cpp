@@ -17,22 +17,22 @@ QString Borne::nom()
     return m_nom;
 }
 
-QString Borne::adresse()
+QString Borne::adresse()const
 {
     return m_adresse;
 }
 
-QString Borne::description()
+QString Borne::description()const
 {
     return m_description;
 }
 
-QString Borne::coordonees()
+QString Borne::coordonees()const
 {
     return m_coordonees;
 }
 
-int Borne::id()
+int Borne::id()const
 {
     return m_id;
 }

@@ -6,15 +6,16 @@
 
 class Borne : public QObject
 {
+    Q_OBJECT
 public:
     Borne(QString nom,QString adresse,QString description,QString coordonees,int id,QString text,QString nomFichier);
     Borne(QString nom,QString description,QString image, QString video,QString text,QString coordonee);
     ~Borne();
-    QString nom();
-    QString adresse();
-    QString description();
-    QString coordonees();
-    int id();
+    Q_INVOKABLE QString nom();
+    Q_INVOKABLE QString adresse()const;
+    Q_INVOKABLE QString description()const;
+    Q_INVOKABLE QString coordonees()const;
+    Q_INVOKABLE int id()const;
     RessourceMultimedia ressource;
 private:
     QString m_nom;

@@ -22,11 +22,14 @@ signals:
     void siteChanged();
 public slots:
     Q_INVOKABLE QStringList site();
+    void ouvrirFenetreBorne(QString nomBorne);
 private:
     Site *m_site;
     QStringList m_liste;
      QQmlApplicationEngine m_engine;
      BaseDeDonnees bdd;
+
+     Borne borneVide;
 };
 
 #endif // FENETRESITE_H
