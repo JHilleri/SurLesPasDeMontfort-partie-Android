@@ -1,18 +1,20 @@
 #include "borne.h"
 
-Borne::Borne(QString nom,QString adresse,QString description,QString coordonees,int id,QString text,QString nomFirchier)
-    :m_nom(nom),m_adresse(adresse),m_description(description),m_coordonees(coordonees),m_id(id),ressource(text,nomFirchier,typesFichier::Audio)
+Borne::Borne(){}
+
+Borne::Borne(QString nom, QString adresse, QString description, QString coordonees, QString text)
+    :m_nom(nom),m_adresse(adresse),m_description(description),m_coordonees(coordonees),m_textUrl(text)
 {}
 
-Borne::Borne(QString nom,QString description,QString image, QString video,QString text,QString coordonee)
-    :m_nom(nom), m_description(description),m_coordonees(coordonee),ressource(text,video,typesFichier::Audio)
+Borne::Borne(QString nom, QString description, QString image, QString video, QString text, QString coordonee)
+    :m_nom(nom), m_description(description),m_coordonees(coordonee),m_textUrl(text)
 {}
 
 Borne::~Borne()
 {}
 
 
-QString Borne::nom()
+QString Borne::nom()const
 {
     return m_nom;
 }
@@ -32,7 +34,23 @@ QString Borne::coordonees()const
     return m_coordonees;
 }
 
-int Borne::id()const
+
+QString Borne::text()
 {
-    return m_id;
+    qDebug(m_textUrl.toStdString().c_str());
+    QFile text(m_textUrl);
+    if(text.open(QIODevice::ReadOnly))
+    {
+        return QString(text.readAll());
+    }
+    else
+    {
+        qDebug("echec de louverture du fichier");
+        return QString("");
+    }
+}
+
+QString Borne::textUrl()
+{
+    return m_textUrl;
 }

@@ -25,7 +25,7 @@ void BaseDeDonnees::creationTables()
                        "AUTOINCREMENT,Nom VARCHAR(100)"
                        " UNIQUE ,Description VARCHAR(300)"
                        ",Image VARCHAR(255), "
-                       "Video VARCHAR(255), Texte TEXT, "
+                       "Video VARCHAR(255), Texte VARCHAR, "
                        "CoordoneeGPS VARCHAR(255))"))
         {
             qDebug("echec de la creation de la table Borne");
@@ -40,14 +40,12 @@ void BaseDeDonnees::creationTables()
 void BaseDeDonnees::ajouterEnregistrement(Borne *borne)
 {
     QSqlQuery query;
-    /*
-    if(!query.exec("INSERT INTO Borne(Nom,Description,Image,Video,Text,CoordoneeGPS) "
-                   "VALUES ( '" + borne->nom() +"', '" + borne->description() + "','" + borne->ressource.m_addresse
-                   + "','" + borne->ressource.m_addresse + "','"+ borne->ressource.m_text + "','"+ borne->coordonees()+ ")"))*/
-    if(!query.exec("INSERT INTO Borne(Nom,Description) VALUES ('" + borne->nom() + "','" + borne->description() + "')"))
+
+    if(!query.exec("INSERT INTO Borne(Nom,Description,Texte,CoordoneeGPS) VALUES ('"
+                   + borne->nom() + "','" + borne->description() + "','" + borne->textUrl() + "','" + borne->coordonees() + "')"))
 
     {
-        //qDebug("echec de l'enregistrement");
+        qDebug("echec de l'enregistrement");
         qDebug(query.lastError().text().toStdString().c_str());
         QString requete(query.lastQuery());
         qDebug(requete.toStdString().c_str());
@@ -59,21 +57,6 @@ void BaseDeDonnees::ajouterEnregistrement(Borne *borne)
 
 void BaseDeDonnees::remplirTab(Site *site)
 {
-/*
-    QSqlQuery query;
-    if(!query.exec("SELECT nom FROM test "))
-    {
-        qDebug("echec de la lecture");
-    }
-    else{
-        qDebug("lecture de la table");
-    }
-    m_liste.clear();
-    while (query.next()) {
-        this->m_liste.append(query.value(0).toString()+"\n");
-        qDebug(query.value(0).toString().toStdString().c_str());
-    }
-*/
     QSqlQuery query;
     if(!query.exec("SELECT Nom, Description, Image, Video, Texte, CoordoneeGPS FROM Borne"))
     {
@@ -84,10 +67,9 @@ void BaseDeDonnees::remplirTab(Site *site)
         site->clear();
         while(query.next())
         {
-            site->ajouter(new Borne(query.value(0).toString(),query.value(1).toString(),query.value(2).toString(),query.value(3).toString(),query.value(5).toString(),query.value(6).toString()));
+            site->ajouter(new Borne(query.value(0).toString(),query.value(1).toString(),query.value(2).toString(),query.value(3).toString(),query.value(4).toString(),query.value(5).toString()));
             qDebug(query.value(0).toString().toStdString().c_str());
-
-            //qDebug(query.value(0).toString().toStdString().c_str());
+            qDebug(query.value(4).toString().toStdString().c_str());
         }
     }
 }
@@ -103,18 +85,12 @@ QStringList BaseDeDonnees::liste()
         while(query.next())
         {
             liste.append(query.value(0).toString());
-
-
-            //qDebug(query.value(0).toString().toStdString().c_str());
         }
     }
     else
     {
         qDebug(query.lastError().text().toStdString().c_str());
     }
-
-
-
     return liste;
 }
 

@@ -29,6 +29,7 @@ QStringList Site::getNames()
     QListIterator<Borne *> i(m_liste);
 
 
+    //TODO utilisation de la version c++ ( avec iterateur)
     while(i.hasNext())
         list.append(i.next()->nom());
     return list;
@@ -36,6 +37,7 @@ QStringList Site::getNames()
 
 void Site::clear()
 {
+    //TODO utilisation de la version c++ ( avec iterateur)
     QListIterator<Borne *> i(m_liste);
 
     while(i.hasNext())
@@ -46,14 +48,9 @@ void Site::clear()
 
 Borne *Site::getBorneByName(QString name)
 {
-    QList<Borne *>::iterator result = std::find_if(m_liste.begin(),m_liste.end(),TestNomBorne(name));
+    QList<Borne *>::iterator result = std::find_if(m_liste.begin(),m_liste.end(),FonctTestNomBorne(name));
     if(result != m_liste.end())return *result;
     else return 0;
 }
 
-TestNomBorne::TestNomBorne(QString nom):m_nom(nom){}
 
-bool TestNomBorne::operator ()( Borne * const borne)
-{
-    return (borne->nom() == m_nom);
-}

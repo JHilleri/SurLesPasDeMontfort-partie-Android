@@ -3,11 +3,11 @@ TEMPLATE = app
 QT += qml quick widgets sql
 
 SOURCES += main.cpp \
-    ressourcemultimedia.cpp \
     borne.cpp \
     site.cpp \
     basededonnees.cpp \
-    fenetresite.cpp
+    fenetresite.cpp \
+    foncteurs.cpp
 
 RESOURCES += qml.qrc
 
@@ -18,8 +18,11 @@ QML_IMPORT_PATH =
 include(deployment.pri)
 
 HEADERS += \
-    ressourcemultimedia.h \
     borne.h \
     site.h \
     basededonnees.h \
-    fenetresite.h
+    fenetresite.h \
+    foncteurs.h
+
+DISTFILES += \
+    TextCalvaire.txt

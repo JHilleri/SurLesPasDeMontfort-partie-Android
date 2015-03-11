@@ -12,9 +12,25 @@ Rectangle{
     visible: true
     signal ouvrirFenetreBorne;
 
+    Titre{
+        id: titre
+        text: "Liste des bornes"
+        anchors.right: parent.right
+        anchors.rightMargin: 0
+        anchors.left: parent.left
+        anchors.leftMargin: 0
+        anchors.top: parent.top
+        anchors.topMargin: 0
+
+    }
+
     ListView{
         id: liste
-        anchors.fill: parent
+        anchors.top: titre.bottom
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        anchors.left: parent.left
+        anchors.topMargin: 0
 
         model: site
 

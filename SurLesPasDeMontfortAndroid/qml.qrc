@@ -4,5 +4,10 @@
         <file>FenetreSite.qml</file>
         <file>FenetreBorne.qml</file>
         <file>Titre.qml</file>
+        <file>Bouton.qml</file>
+    </qresource>
+    <qresource lang="fr" prefix="/textes">
+        <file>TextCalvaire.txt</file>
+        <file>SaintGab.txt</file>
     </qresource>
 </RCC>
