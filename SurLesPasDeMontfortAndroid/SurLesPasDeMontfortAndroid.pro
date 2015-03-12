@@ -1,6 +1,6 @@
 TEMPLATE = app
 
-QT += qml quick widgets sql
+QT += qml quick widgets sql xml
 
 SOURCES += main.cpp \
     borne.cpp \

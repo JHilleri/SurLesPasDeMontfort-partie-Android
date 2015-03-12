@@ -3,30 +3,49 @@ import QtQuick.Controls 1.3
 import QtQuick.Window 2.2
 import QtQuick.Dialogs 1.2
 
+
+
+
 ApplicationWindow {
     title: qsTr("Hello World")
     width: 640
     height: 480
     visible: true
     id:root
+    property int fenetreEnCours: fenetres.fenetreSite
+    QtObject {
+      id: fenetres
+      property int fenetreSite: 0
+      property int fenetreBorne: 1
+      property int fenetreQuizz: 2
+    }
 
+    /*
+    menuBar: MenuBar {
+            Menu {
+                title: qsTr("&File")
+                MenuItem {
+                    text: qsTr("&Charger XML")
+                    onTriggered: fenetreSite.lireSiteXML()
+                }
+            }
+        }
+*/
 
     FenetreSite{
         id:fenetreListe
-        visible: true
+        visible: (root.fenetreEnCours == fenetres.fenetreSite)?true:false
         onOuvrirFenetreBorne: {
-            fenetreListe.visible = false;
-            fenetreBorne.visible = true;
-            fenetreBorne.focus = true;
+            fenetreEnCours = fenetres.fenetreBorne;
         }
     }
+
     FenetreBorne{
         id:fenetreBorne
-        visible: false
+        visible: (root.fenetreEnCours == fenetres.fenetreBorne)?true:false
+        focus: (root.fenetreEnCours == fenetres.fenetreBorne)?true:false
         onRetour: {
-            fenetreListe.visible = true;
-            fenetreBorne.visible = false;
-            fenetreBorne.focus = false;
+            fenetreEnCours = fenetres.fenetreSite;
         }
     }
 }
