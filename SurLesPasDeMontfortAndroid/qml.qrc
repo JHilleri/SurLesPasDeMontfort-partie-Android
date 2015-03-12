@@ -10,4 +10,7 @@
         <file>TextCalvaire.txt</file>
         <file>SaintGab.txt</file>
     </qresource>
+    <qresource prefix="/data">
+        <file>Site.xml</file>
+    </qresource>
 </RCC>

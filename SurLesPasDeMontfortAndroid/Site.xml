@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<racine>
+    <borne nom="St Gabriel" adresse="st laurent sur sevre" description="lycee st gabriel" coordonees="46.9672881,-0.898719,15z" text=":/textes/SaintGab.txt" />
+    <borne nom="Calvaire" adresse="st laurent sur sevre" description="calvaire" coordonees="" text=":/textes/TextCalvaire.txt" />
+    <borne nom="Maison longue" adresse="St Laurent sur sevre" description="maison" coordonees="" text="" />
+    <borne nom="Pont Eiffel" adresse="St Laurent sur sevre" description="pont" coordonees="" text="" />
+
+</racine>

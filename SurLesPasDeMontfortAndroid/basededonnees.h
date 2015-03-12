@@ -21,6 +21,8 @@ public:
     QStringList liste();
     void setListe(QStringList liste);
 
+    void clear();
+
 protected:
     void creationTables();
     QSqlDatabase m_baseDeDonnees;

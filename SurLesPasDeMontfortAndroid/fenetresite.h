@@ -5,6 +5,7 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include <QStringList>
+#include <QtXml>
 #include "site.h"
 #include "basededonnees.h"
 
@@ -23,6 +24,8 @@ signals:
 public slots:
     Q_INVOKABLE QStringList site();
     void ouvrirFenetreBorne(QString nomBorne);
+
+    Q_INVOKABLE void lireSiteXML();
 private:
     Site *m_site;
     QStringList m_liste;

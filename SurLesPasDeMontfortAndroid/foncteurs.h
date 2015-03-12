@@ -2,10 +2,10 @@
 #define FONCTEURS
 #include "borne.h"
 
-class FonctTestNomBorne
+class FoncteurTestNomBorne
 {
 public:
-    FonctTestNomBorne(QString nom);
+    FoncteurTestNomBorne(QString nom);
     bool operator()(Borne * const borne);
 private:
     QString m_nom;

@@ -42,7 +42,7 @@ void BaseDeDonnees::ajouterEnregistrement(Borne *borne)
     QSqlQuery query;
 
     if(!query.exec("INSERT INTO Borne(Nom,Description,Texte,CoordoneeGPS) VALUES ('"
-                   + borne->nom() + "','" + borne->description() + "','" + borne->textUrl() + "','" + borne->coordonees() + "')"))
+                   + borne->nom().toUpper() + "','" + borne->description() + "','" + borne->textUrl() + "','" + borne->coordonees() + "')"))
 
     {
         qDebug("echec de l'enregistrement");
@@ -97,4 +97,14 @@ QStringList BaseDeDonnees::liste()
 void BaseDeDonnees::setListe(QStringList liste)
 {
     m_liste = liste;
+}
+
+void BaseDeDonnees::clear()
+{
+    QSqlQuery query;
+    qDebug("suppression de la base de donnees");
+    if(!query.exec("DELETE FROM Borne;"))
+    {
+            qDebug("echec de la suppression de la base de donnee");
+    }
 }

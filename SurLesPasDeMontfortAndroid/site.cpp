@@ -48,7 +48,7 @@ void Site::clear()
 
 Borne *Site::getBorneByName(QString name)
 {
-    QList<Borne *>::iterator result = std::find_if(m_liste.begin(),m_liste.end(),FonctTestNomBorne(name));
+    QList<Borne *>::iterator result = std::find_if(m_liste.begin(),m_liste.end(),FoncteurTestNomBorne(name));
     if(result != m_liste.end())return *result;
     else return 0;
 }
