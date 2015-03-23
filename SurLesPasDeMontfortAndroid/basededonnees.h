@@ -18,15 +18,15 @@ public:
 
     void ajouterEnregistrement(Borne *borne);
     void remplirTab(Site *site);
-    QStringList liste();
-    void setListe(QStringList liste);
+    //QStringList liste();
+    //void setListe(QStringList liste);
 
     void clear();
 
 protected:
     void creationTables();
     QSqlDatabase m_baseDeDonnees;
-    QStringList m_liste;
+    //QStringList m_liste;
 };
 
 #endif // BASEDEDONNEES_H

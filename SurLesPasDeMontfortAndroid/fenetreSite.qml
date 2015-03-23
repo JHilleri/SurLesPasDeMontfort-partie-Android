@@ -29,7 +29,8 @@ Rectangle{
         anchors.left: parent.left
         anchors.topMargin: 0
 
-        model: site
+        //model: fenetre.site
+        model: site.liste
 
         delegate: Rectangle{
             height: 50
@@ -39,13 +40,15 @@ Rectangle{
                 anchors.fill: parent
 
                 horizontalAlignment: Text.AlignHCenter
-                text:modelData
+                //text:modelData
+                text:modelData.nom
                 verticalAlignment: Text.AlignVCenter
             }
             MouseArea{
                 anchors.fill: parent
                 onClicked: {
-                    fenetreSite.ouvrirFenetreBorne(modelData);
+                    //fenetre.ouvrirFenetreBorne(modelData);
+                    fenetre.setBorneEnCours(modelData.nom);
                     ouvrirFenetreBorne();
                 }
             }

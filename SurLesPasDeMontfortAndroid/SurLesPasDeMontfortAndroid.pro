@@ -1,15 +1,19 @@
 TEMPLATE = app
 
-QT += qml quick widgets sql xml
+QT += qml quick widgets sql xml positioning
 
 SOURCES += main.cpp \
     borne.cpp \
     site.cpp \
     basededonnees.cpp \
-    fenetresite.cpp \
-    foncteurs.cpp
+    foncteurs.cpp \
+    gps.cpp \
+    fenetre.cpp
 
-RESOURCES += qml.qrc
+RESOURCES += qml.qrc \
+    audio.qrc \
+    textes.qrc \
+    data.qrc
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
@@ -21,8 +25,9 @@ HEADERS += \
     borne.h \
     site.h \
     basededonnees.h \
-    fenetresite.h \
-    foncteurs.h
+    foncteurs.h \
+    gps.h \
+    fenetre.h
 
 DISTFILES += \
     TextCalvaire.txt

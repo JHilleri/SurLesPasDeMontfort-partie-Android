@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/" lang="fr">
+        <file>textes/SaintGab.txt</file>
+        <file>textes/TextCalvaire.txt</file>
+    </qresource>
+</RCC>

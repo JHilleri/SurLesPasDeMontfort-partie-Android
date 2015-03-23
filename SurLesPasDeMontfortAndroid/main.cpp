@@ -1,10 +1,10 @@
 #include <QApplication>
-#include "fenetresite.h"
+#include "fenetre.h"
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
 
-    FenetreSite fenetre;
+    Fenetre fenetre;
     fenetre.start();
     return app.exec();
 }

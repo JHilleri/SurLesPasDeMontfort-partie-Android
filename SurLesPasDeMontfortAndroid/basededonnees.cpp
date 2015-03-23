@@ -24,9 +24,9 @@ void BaseDeDonnees::creationTables()
                        "(idBorne INTEGER PRIMARY KEY  "
                        "AUTOINCREMENT,Nom VARCHAR(100)"
                        " UNIQUE ,Description VARCHAR(300)"
-                       ",Image VARCHAR(255), "
-                       "Video VARCHAR(255), Texte VARCHAR, "
-                       "CoordoneeGPS VARCHAR(255))"))
+                       ",Adresse VARCHAR(255),UrlImage VARCHAR(255), "
+                       "UrlPisteAudio VARCHAR(255), UrlTexte VARCHAR(255), "
+                       "Latitude DOUBLE ,Longitude DOUBLE ,Altitude DOUBLE )"))
         {
             qDebug("echec de la creation de la table Borne");
             qDebug(query.lastError().text().toStdString().c_str());
@@ -40,15 +40,24 @@ void BaseDeDonnees::creationTables()
 void BaseDeDonnees::ajouterEnregistrement(Borne *borne)
 {
     QSqlQuery query;
+    QString requete = "INSERT INTO Borne(Nom,Description,Adresse,UrlImage,UrlPisteAudio,UrlTexte,Latitude,Longitude,Altitude) VALUES ('";
+    requete.append(borne->nom().toUpper() + "','");
+    requete.append(borne->description() + "','");
+    requete.append(borne->adresse()+ "','");
+    requete.append(borne->urlImage()+ "','");
+    requete.append(borne->urlPisteAudio()+ "','");
+    requete.append(borne->urlText()+ "',");
+    requete.append(QString::number(borne->latitude())+ ",");
+    requete.append(QString::number(borne->longitude())+ ",");
+    requete.append(QString::number(borne->altitude())+  ")");
 
-    if(!query.exec("INSERT INTO Borne(Nom,Description,Texte,CoordoneeGPS) VALUES ('"
-                   + borne->nom().toUpper() + "','" + borne->description() + "','" + borne->textUrl() + "','" + borne->coordonees() + "')"))
+    qDebug(requete.toStdString().c_str());
+
+    if(!query.exec(requete))
 
     {
-        qDebug("echec de l'enregistrement");
+        qDebug("\nechec de l'enregistrement");
         qDebug(query.lastError().text().toStdString().c_str());
-        QString requete(query.lastQuery());
-        qDebug(requete.toStdString().c_str());
     }
     else{
         qDebug("ajout d'un nouvel enregistrement");
@@ -58,7 +67,8 @@ void BaseDeDonnees::ajouterEnregistrement(Borne *borne)
 void BaseDeDonnees::remplirTab(Site *site)
 {
     QSqlQuery query;
-    if(!query.exec("SELECT Nom, Description, Image, Video, Texte, CoordoneeGPS FROM Borne"))
+    Borne *borne;
+    if(!query.exec("SELECT Nom, Description, UrlImage, UrlPisteAudio, UrlTexte, Latitude, Longitude, Altitude  FROM Borne"))
     {
         qDebug(query.lastError().text().toStdString().c_str());
     }
@@ -67,13 +77,21 @@ void BaseDeDonnees::remplirTab(Site *site)
         site->clear();
         while(query.next())
         {
-            site->ajouter(new Borne(query.value(0).toString(),query.value(1).toString(),query.value(2).toString(),query.value(3).toString(),query.value(4).toString(),query.value(5).toString()));
-            qDebug(query.value(0).toString().toStdString().c_str());
-            qDebug(query.value(4).toString().toStdString().c_str());
+            //site->ajouter(new Borne(query.value(0).toString(),query.value(1).toString(),query.value(2).toString(),query.value(3).toString(),query.value(4).toString(),query.value(5).toString()));
+            borne = new Borne;
+            borne->setNom(query.value(0).toString());
+            borne->setDescription(query.value(1).toString());
+            borne->setUrlImage(query.value(2).toString());
+            borne->setUrlPisteAudio(query.value(3).toString());
+            borne->setUrlText(query.value(4).toString());
+            borne->setLatitude(query.value(5).toDouble());
+            borne->setLongitude(query.value(6).toDouble());
+            borne->setAltitude(query.value(7).toDouble());
+            site->ajouterBorne(borne);
         }
     }
 }
-
+/*
 QStringList BaseDeDonnees::liste()
 {
     QStringList liste;
@@ -92,12 +110,12 @@ QStringList BaseDeDonnees::liste()
         qDebug(query.lastError().text().toStdString().c_str());
     }
     return liste;
-}
-
+}*/
+/*
 void BaseDeDonnees::setListe(QStringList liste)
 {
     m_liste = liste;
-}
+}*/
 
 void BaseDeDonnees::clear()
 {

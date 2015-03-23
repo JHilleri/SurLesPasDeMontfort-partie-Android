@@ -2,10 +2,14 @@ import QtQuick 2.0
 import QtQuick.Controls 1.3
 import QtQuick.Dialogs 1.2
 
+
 Rectangle {
-    id: rectangle1
+    id: root
     anchors.fill: parent
     signal retour
+
+    property int lectureEnCour: 0
+    signal debuterLecture(string urlFichierAudio)
 
     Keys.onReleased: {
     if (event.key === Qt.Key_Back) {
@@ -14,26 +18,22 @@ Rectangle {
         }
     }
 
-
     Titre{
         id:titre
-        text:borne.nom()
+        text:borneSelectionne.nom
         anchors.right: parent.right
-        anchors.rightMargin: 0
         anchors.left: parent.left
-        anchors.leftMargin: 0
         anchors.top: parent.top
-        anchors.topMargin: 0
     }
 
     TextArea {
         id:text
-        anchors.top: titre.bottom
+        readOnly: true
+        text:borneSelectionne.text
         anchors.right: parent.right
         anchors.left: parent.left
-        anchors.bottom: btnPosition.bottom
-        readOnly: true
-        text:borne.text()
+        anchors.bottom: btnPosition.top
+        anchors.top: titre.bottom
     }
 
     Bouton{
@@ -42,6 +42,10 @@ Rectangle {
         width: parent.width/3
         anchors.bottom: parent.bottom
         text: "Position"
+        border.color: "#ffffff"
+        onClicked: {
+            fenetre.afficherCarte(borneSelectionne.nom);
+        }
     }
     Bouton{
         id:btnItineraire
@@ -49,13 +53,19 @@ Rectangle {
         width: parent.width/3
         anchors.bottom: parent.bottom
         text: "Itineraire"
+        border.color: "#ffffff"
+        onClicked: fenetre.afficherItineraire(borneSelectionne.nom)
     }
     Bouton{
-        id:btnPhotos
+        id:btnLecture
         anchors.left: btnItineraire.right
         anchors.right: parent.right
         width: parent.width/3
         anchors.bottom: parent.bottom
-        text: "Photos"
+        text: "Lecture"
+        border.color: "#ffffff"
+        onClicked: {
+            root.debuterLecture(borneSelectionne.urlPisteAudio)
+        }
     }
 }

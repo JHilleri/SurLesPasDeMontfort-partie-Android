@@ -4,8 +4,10 @@ Rectangle {
     signal clicked
     property string text: ""
     id:root
-    height: 50
+    height: 60
     color: "#6e0917"
+    border.color: "#ffffff"
+    border.width: 5
 
     Text{
         color: "#ffffff"
@@ -18,7 +20,9 @@ Rectangle {
 
     MouseArea{
         anchors.fill: parent
-        onClicked: root.clicked()
+        onClicked: {root.clicked()
+            console.error(root.text + " clicked");
+        }
     }
 }
 
