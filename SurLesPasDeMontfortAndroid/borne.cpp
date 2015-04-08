@@ -1,9 +1,28 @@
 #include "borne.h"
 
 
-Borne::Borne(QObject *parent) : QObject(parent)
-,m_altitude(0),m_latitude(0),m_longitude(0)
-{}
+Borne::Borne(QObject *parent) : QObject(parent),m_altitude(0),m_latitude(0),m_longitude(0)
+{
+    connect(this,SIGNAL(urlPisteAudioChanged()),this,SLOT(testUrlPisteAudio()));
+}
+
+Borne::Borne( QDomElement &element,QObject *parent) : QObject(parent)
+{
+    connect(this,SIGNAL(urlPisteAudioChanged()),this,SLOT(testUrlPisteAudio()));
+
+    // Utilisation des seters pour effectuer les tests sur la validite des donnees
+    setAdresse(element.attribute("adresse",""));
+    setDescription(element.attribute("description",""));
+    setNom(element.attribute("nom",""));
+    setUrlImage(element.attribute("urlImage",""));
+    setUrlPisteAudio(element.attribute("urlPisteAudio",""));
+    setUrlText(element.attribute("urlText",""));
+    setAltitude(element.attribute("altitude","").toDouble());
+    setLatitude(element.attribute("latitude","").toDouble());
+    setLongitude(element.attribute("longitude","").toDouble());
+
+
+}
 
 Borne::~Borne()
 {
@@ -51,39 +70,53 @@ QString Borne::urlPisteAudio()const
     return m_urlPisteAudio;
 }
 
+
+
+
 QString Borne::text()const
 {
     if(m_urlText.isEmpty())
     {
-        qDebug(QString("la borne '").append(m_nom).append("' n'a pas de text").toStdString().c_str());
-        return QString();
+        qDebug() << "la borne '" << m_nom << "' n'a pas de text";
+        return QString("la borne n'a pas de text");
     }
     QFile text(m_urlText);
+    if(!text.exists())
+    {
+        qDebug() << "le fichier text '" << m_urlText << "' associe a la borne '" << m_nom << "' n'existe pas,";
+        return QString("le fichier text '").append(m_urlText).append("' n'existe pas,");
+    }
     if(text.open(QIODevice::ReadOnly))
     {
         return QString(text.readAll());
     }
     else
     {
-        qDebug(QString("echec de louverture du fichier : ").append(m_urlText).toStdString().c_str());
-        return QString("");
+        qDebug() << "echec de louverture du fichier ': '" << m_urlText << "' de la borne '" << m_nom << "'";
+        return QString("echec de louverture du fichier ': '").append(m_urlText).append("'");
     }
 }
 
+
+
+
 void Borne::setNom(QString nom)
 {
+    if(nom.contains("'"))return;
     m_nom=nom;
     emit nomChanged();
 }
 
 void Borne::setAdresse(QString adresse)
 {
+    if(adresse.contains("'"))return;
     m_adresse=adresse;
     emit adresseChanged();
 }
 
 void Borne::setDescription(QString description)
 {
+    if(description.contains("'"))return;
     m_description=description;
     emit descriptionChanged();
 }
@@ -108,21 +141,26 @@ void Borne::setAltitude(double altitude)
 
 void Borne::setUrlImage(QString urlImage)
 {
+    if(urlImage.contains("'"))return;
     m_urlImage=urlImage;
     emit urlImageChanged();
 }
 
 void Borne::setUrlPisteAudio(QString urlPisteAudio)
 {
+    if(urlPisteAudio.contains("'"))return;
     m_urlPisteAudio=urlPisteAudio;
     emit urlPisteAudioChanged();
+    //testUrlPisteAudio();
 }
 
 void Borne::setUrlText(QString urlText)
 {
+    if(urlText.contains("'"))return;
     m_urlText=urlText;
     emit textChanged();
 }
+
 
 QString Borne::urlText()const
 {
@@ -140,4 +178,43 @@ void Borne::operator=(const Borne &borne)
     this->setUrlImage(borne.urlImage());
     this->setUrlPisteAudio(borne.urlPisteAudio());
     this->setUrlText(borne.urlText());
+    testUrlPisteAudio();
+}
+
+
+double Borne::distanceTo(const QGeoCoordinate &coordonees)
+{
+    return coordonees.distanceTo(QGeoCoordinate(this->latitude(),this->longitude()));
+}
+
+bool Borne::operator ==(const Borne &borne2)const
+{
+    return ((this->adresse() == borne2.adresse())
+            && this->altitude() == borne2.altitude()
+            && this->description() == borne2.description()
+            && this->latitude() == borne2.latitude()
+            && this->longitude() == borne2.longitude()
+            && this->nom() == borne2.nom()
+            && this->urlText() == borne2.urlText()
+            && this->urlImage() == borne2.urlImage()
+            && this->urlPisteAudio() == borne2.urlPisteAudio()
+            );
+}
+
+bool Borne::urlPisteAudioEstValid()const
+{
+    return m_urlPisteAudioEstValid;
+}
+
+void Borne::testUrlPisteAudio()
+{
+    if(m_urlPisteAudio.isEmpty() || !QFile(":" + QUrl(m_urlPisteAudio).path()).exists())
+    {
+        m_urlPisteAudioEstValid = false;
+    }
+    else
+    {
+        m_urlPisteAudioEstValid = true;
+    }
+    emit urlPisteAudioEstValidChanged();
 }

@@ -2,6 +2,7 @@ import QtQuick 2.0
 import QtQuick.Controls 1.3
 import QtQuick.Dialogs 1.2
 import QtMultimedia 5.0
+import site 1.0
 
 Rectangle {
     id:root
@@ -21,11 +22,9 @@ Rectangle {
 
     function debuterLecture(urlFichierAudio)
     {
-        lecteurAudio.source = urlFichierAudio;
-        lecteurAudio.play();
+        if(urlFichierAudio == lecteurAudio.source && lecteurAudio.hasAudio)lecteurAudio.play();
+        else lecteurAudio.source = urlFichierAudio;
     }
-
-    //visible: (lectureEnCour === etatsLecture.arret)?false:true
 
     Bouton{
         id:btnPause
@@ -33,7 +32,6 @@ Rectangle {
         width: parent.width/2
         anchors.bottom: parent.top
         text:(etatEnCour === etatsLecture.lecture)?"pause":"reprendre"
-        //onClicked: (etatEnCour == etatsLecture.lecture)?{lecteurAudio.pause()}:{lecteurAudio.play()}
         onClicked: {
             if(etatEnCour === etatsLecture.lecture)
             {
@@ -52,7 +50,6 @@ Rectangle {
         width: parent.width/2
         anchors.bottom: parent.top
         text:"stop"
-        //visible: (root.etatEnCour == 0)?false:true
         onClicked: {
             lecteurAudio.stop()
         }
@@ -65,12 +62,17 @@ Rectangle {
         onPlaying: {
             root.etatEnCour = etatsLecture.lecture;
             debutLecture();
-            console.debug("debut de la lecture de " + urlFichierAudio)
+            console.debug("debut de la lecture de " + lecteurAudio.source)
         }
         onStopped: {
             root.etatEnCour = etatsLecture.arret;
             finLecture();
         }
+        onHasAudioChanged:
+        {
+                lecteurAudio.play();
+        }
+        onError: console.debug("erreur avec le fichier audio '" + root.urlFichierAudio +"'");
     }
 }
 

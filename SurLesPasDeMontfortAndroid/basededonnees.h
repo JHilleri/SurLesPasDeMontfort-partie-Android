@@ -9,6 +9,7 @@
 
 #include "borne.h"
 #include "site.h"
+#include "config.h"
 
 class BaseDeDonnees
 {
@@ -17,16 +18,13 @@ public:
     ~BaseDeDonnees();
 
     void ajouterEnregistrement(Borne *borne);
-    void remplirTab(Site *site);
-    //QStringList liste();
-    //void setListe(QStringList liste);
+    void remplirSite(Site *site);
 
     void clear();
 
 protected:
     void creationTables();
     QSqlDatabase m_baseDeDonnees;
-    //QStringList m_liste;
 };
 
 #endif // BASEDEDONNEES_H

@@ -5,7 +5,7 @@ Rectangle {
     property string text: ""
     id:root
     height: 60
-    color: "#6e0917"
+    color: (root.enabled)?"#6e0917":"#424242"
     border.color: "#ffffff"
     border.width: 5
 
@@ -20,8 +20,8 @@ Rectangle {
 
     MouseArea{
         anchors.fill: parent
-        onClicked: {root.clicked()
-            console.error(root.text + " clicked");
+        onClicked: {root.clicked();
+            console.error("'" + root.text + "' button clicked");
         }
     }
 }

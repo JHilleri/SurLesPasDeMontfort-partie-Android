@@ -3,6 +3,11 @@
 #include <QString>
 #include <QObject>
 #include <QFile>
+#include <QGeoCoordinate>
+#include <QDomElement>
+#include <QUrl>
+
+#include "config.h"
 
 class Borne : public QObject
 {
@@ -17,9 +22,12 @@ class Borne : public QObject
     Q_PROPERTY(QString urlImage READ urlImage NOTIFY urlImageChanged)
     Q_PROPERTY(QString urlPisteAudio READ urlPisteAudio NOTIFY urlPisteAudioChanged)
     Q_PROPERTY(QString text READ text NOTIFY textChanged)
+    Q_PROPERTY(bool urlPisteAudioEstValid READ urlPisteAudioEstValid NOTIFY urlPisteAudioEstValidChanged)
+
 
 public:
     explicit Borne(QObject *parent = 0);
+    Borne( QDomElement &element,QObject *parent = 0);
     ~Borne();
 
     QString nom()const;
@@ -33,7 +41,13 @@ public:
     QString text()const;
     QString urlText()const;
 
+    double distanceTo(const QGeoCoordinate &coordonees);
+
     void operator=(const Borne &borne);
+    bool operator ==( const Borne &borne2)const;
+
+    bool urlPisteAudioEstValid()const;
+
 
 signals:
     void nomChanged();
@@ -45,6 +59,7 @@ signals:
     void urlImageChanged();
     void urlPisteAudioChanged();
     void textChanged();
+    void urlPisteAudioEstValidChanged();
 
 public slots:
      void setNom(QString nom);
@@ -57,6 +72,8 @@ public slots:
      void setUrlPisteAudio(QString urlPisteAudio);
      void setUrlText(QString urlText);
 
+     void testUrlPisteAudio();
+
 private:
     QString m_nom;
     QString m_adresse;
@@ -67,6 +84,9 @@ private:
     QString m_urlImage;
     QString m_urlPisteAudio;
     QString m_urlText;
+    bool m_urlPisteAudioEstValid;
+
+
 };
 
 #endif // BORNE_H

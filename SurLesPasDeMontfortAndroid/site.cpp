@@ -1,16 +1,16 @@
 #include "site.h"
-#include <algorithm>
+
+
+
 
 Site::Site(QObject *parent) : QObject(parent)
 {
 
 }
 
-//Site::Site(const Site& site):m_liste(site.liste()){}
-
 Site::~Site()
 {
-    this->clear();
+    this->clear();// inutile car les bornes ont le site comme parent;
 }
 
 void Site::ajouterBorne(Borne *borne)
@@ -21,35 +21,17 @@ void Site::ajouterBorne(Borne *borne)
         emit listeChanged();
     }
 }
-/*
-QStringList Site::getNames()
-{
-    QStringList list;
-    QListIterator<Borne *> i(m_liste);
 
-
-    //TODO utilisation de la version c++ ( avec iterateur)
-    while(i.hasNext())
-        list.append(i.next()->nom());
-    return list;
-}*/
 
 void Site::clear()
 {
-    /*
-    //TODO utilisation de la version c++ ( avec iterateur)
-    QListIterator<Borne *> i(m_liste);
-
-    while(i.hasNext())
-        delete i.next();
-    m_liste.clear();
-    */
     for(QList<QObject *>::iterator i = m_liste.begin();i != m_liste.end();++i)
     {
         delete *i;
     }
     m_liste.clear();
     emit listeChanged();
+    emit listeCleared();
 }
 
 

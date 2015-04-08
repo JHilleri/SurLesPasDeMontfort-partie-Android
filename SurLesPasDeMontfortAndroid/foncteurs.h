@@ -3,6 +3,7 @@
 #include <QGeoPositionInfo>
 #include <QVariant>
 #include "borne.h"
+#include "config.h"
 
 class FoncteurTestNomBorne
 {
@@ -16,11 +17,13 @@ private:
 class FoncteurTestPosition
 {
 public:
-    FoncteurTestPosition(const QGeoPositionInfo &info);
-    bool operator()(QObject * const borne);
+    FoncteurTestPosition(const QGeoCoordinate &coordonnees);
+    void operator()(QObject * const borne);
+    Borne *borneLaPlusProche()const;
 private:
-    const QGeoPositionInfo &m_info;
+    const QGeoCoordinate &m_coordonnees;
+    Borne *m_borneLaPlusproche;
+    double m_distanceMin;
 };
 
 #endif // FONCTEURS
-

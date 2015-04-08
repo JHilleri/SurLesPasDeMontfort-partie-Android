@@ -2,6 +2,7 @@ import QtQuick 2.4
 import QtQuick.Controls 1.3
 import QtQuick.Window 2.2
 import QtQuick.Dialogs 1.2
+import site 1.0
 
 Rectangle{
     id:root
@@ -29,8 +30,7 @@ Rectangle{
         anchors.left: parent.left
         anchors.topMargin: 0
 
-        //model: fenetre.site
-        model: site.liste
+        model: fenetre.site.liste
 
         delegate: Rectangle{
             height: 50
@@ -40,15 +40,13 @@ Rectangle{
                 anchors.fill: parent
 
                 horizontalAlignment: Text.AlignHCenter
-                //text:modelData
                 text:modelData.nom
                 verticalAlignment: Text.AlignVCenter
             }
             MouseArea{
                 anchors.fill: parent
                 onClicked: {
-                    //fenetre.ouvrirFenetreBorne(modelData);
-                    fenetre.setBorneEnCours(modelData.nom);
+                    fenetre.setBorneSelectionne(modelData.nom);
                     ouvrirFenetreBorne();
                 }
             }

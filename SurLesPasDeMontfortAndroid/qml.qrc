@@ -1,10 +1,11 @@
 <RCC>
     <qresource prefix="/">
-        <file>main.qml</file>
-        <file>FenetreSite.qml</file>
-        <file>FenetreBorne.qml</file>
-        <file>Titre.qml</file>
-        <file>Bouton.qml</file>
-        <file>BarreControleAudio.qml</file>
+        <file>qml/FenetrePrincipale.qml</file>
+        <file>qml/FenetreSite.qml</file>
+        <file>qml/FenetreBorne.qml</file>
+        <file>qml/Titre.qml</file>
+        <file>qml/Bouton.qml</file>
+        <file>qml/LecteurAudio.qml</file>
+        <file>qml/FenetreQuizz.qml</file>
     </qresource>
 </RCC>

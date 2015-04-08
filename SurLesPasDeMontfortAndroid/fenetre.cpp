@@ -1,165 +1,173 @@
 #include "fenetre.h"
-#include <QString>
-#include <QDesktopServices>
-#include <algorithm>
 
-Fenetre::Fenetre(QObject *parent) : QObject(parent),m_borneSelectionne(&borneVide)
+
+
+Fenetre::Fenetre(QObject *parent) : QObject(parent),m_borneSelectionne(&borneVide),m_gps(this),m_site(this),m_borneAProximite(&borneVide)
 {
-    //m_site = new Site;
-/*
-    bdd.ajouterEnregistrement(new Borne("Le calvaire symbole monfortain","St Laurent sur sevre","calvaire","46.9672881,-0.898719,15z",":/textes/TextCalvaire.txt"));
-    bdd.ajouterEnregistrement(new Borne("Chapelle de la Sagesse","St Laurent sur sevre","chapelle","",""));
-    bdd.ajouterEnregistrement(new Borne("Maison longue","St Laurent sur sevre","maison","",""));
-    bdd.ajouterEnregistrement(new Borne("Pont Eiffel","St Laurent sur sevre","maison","",""));
-
-    bdd.ajouterEnregistrement(new Borne("Saint-Gabriel","St Laurent sur sevre", "st gab", "",":/textes/SaintGab.txt"));
-*/
-    bdd.remplirTab(&m_site);
-    //this->setSite( m_site.getNames());
+    bdd.remplirSite(&m_site);
     connect(&m_gps,SIGNAL(nouvellePosition(QGeoPositionInfo)),this,SLOT(testsPosition(QGeoPositionInfo)));
+
+    borneVide.setNom("pas de borne");
+
+    QDomDocument doc("Quizz_xml");
+    QFile fichier(":/data/Quizz.xml");
+    QDomElement element;
+    if (!fichier.open(QIODevice::ReadOnly) || !doc.setContent(&fichier))
+    {
+         fichier.close();
+         qDebug("echec de l'ouverture du fichier xml");
+         return;
+     }
+     fichier.close();
+     element =doc.documentElement().firstChild().toElement();
+
+     connect(&m_site,SIGNAL(listeCleared()),this,SLOT(resetBorneAProximite()));
+     connect(&m_site,SIGNAL(listeCleared()),this,SLOT(resetBorneSelectionne()));
 }
 
 void Fenetre::start()
 {
-    m_engine.rootContext()->setContextProperty("fenetre",this);
-    m_engine.rootContext()->setContextProperty("site",QVariant::fromValue(&(this->m_site)));
-    m_engine.rootContext()->setContextProperty("borneSelectionne",QVariant::fromValue(m_borneSelectionne));
 
-    //qDebug(QString::number(m_liste.size()).toStdString().c_str() );
-    m_engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
+    m_engine.rootContext()->setContextProperty("fenetre",this);
+    m_engine.load(QUrl(QStringLiteral("qrc:/qml/FenetrePrincipale.qml")));
 }
 
 Fenetre::~Fenetre(){}
 
-/*
-QStringList Fenetre::site()
+void Fenetre::setBorneSelectionne(QString nomBorne)
 {
-    return m_liste;
-}
-*/
-/*
-void Fenetre::setSite(Site site)
-{
-    if(m_site.liste() != site.liste())
-    {
-        m_site.setListe(site.liste());
-        emit siteChanged();
-    }
-}*/
-
-void Fenetre::setBorneEnCours(QString nomBorne)
-{
-    //m_engine.rootContext()->setContextProperty("borne",this->m_site.getBorneByName(nomBorne));
     if(nomBorne == m_borneSelectionne->nom())return;
-    if(nomBorne == "")
+    Borne *borne = m_site.getBorneByName(nomBorne);
+    if(borne != NULL)
     {
-        *m_borneSelectionne = borneVide;
+        m_borneSelectionne = borne;
     }
     else
     {
-        *m_borneSelectionne = *(m_site.getBorneByName(nomBorne));
+        m_borneSelectionne = &borneVide;
     }
+    emit borneSelectionneChanged();
+}
+
+void Fenetre::setBorneSelectionne(Borne *borneSelectionne)
+{
+    m_borneSelectionne = borneSelectionne;
     emit borneSelectionneChanged();
 }
 
 void Fenetre::lireSiteXML()
 {
-    bdd.clear();
     QDomDocument doc("Site_xml");
     QFile fichier(":/data/Site.xml");
-    if (!fichier.open(QIODevice::ReadOnly))
-         return;
-     if (!doc.setContent(&fichier)) {
+    QDomElement racine;
+    QDomNode i;
+    QDomElement element;
+    Borne *nouvelleBorne;
+
+
+    if (!fichier.open(QIODevice::ReadOnly) || !doc.setContent(&fichier))
+    {
          fichier.close();
+         qDebug("echec de l'ouverture du fichier xml");
          return;
      }
      fichier.close();
-     QDomElement racine = doc.documentElement();
-     QDomNode i = racine.firstChild();
-     QDomElement element;
-     Borne *nouvelleBorne;
-     QString messageDebug;
+     bdd.clear();
+     racine = doc.documentElement();
+     i = racine.firstChild();
+
      while(!i.isNull())
      {
          element = i.toElement();
-         
-         nouvelleBorne = new Borne;
-         nouvelleBorne->setAdresse(element.attribute("adresse",""));
-         nouvelleBorne->setAltitude(element.attribute("altitude","").toDouble());
-         nouvelleBorne->setDescription(element.attribute("description",""));
-         nouvelleBorne->setLatitude(element.attribute("latitude","").toDouble());
-         nouvelleBorne->setLongitude(element.attribute("longitude","").toDouble());
-         nouvelleBorne->setNom(element.attribute("nom",""));
-         nouvelleBorne->setUrlImage(element.attribute("urlImage",""));
-         nouvelleBorne->setUrlPisteAudio(element.attribute("urlPisteAudio",""));
-         nouvelleBorne->setUrlText(element.attribute("urlText",""));
+         nouvelleBorne = new Borne(element,this);
          bdd.ajouterEnregistrement(nouvelleBorne);
-         
-         messageDebug.clear();
-         messageDebug.append(element.attribute("adresse",""));
-         messageDebug.append("," + element.attribute("altitude",""));
-         messageDebug.append("," + element.attribute("description",""));
-         messageDebug.append("," + element.attribute("latitude",""));
-         messageDebug.append("," + element.attribute("longitude",""));
-         messageDebug.append("," + element.attribute("nom",""));
-         messageDebug.append("," + element.attribute("urlImage",""));
-         messageDebug.append("," + element.attribute("urlPisteAudio",""));
-         messageDebug.append("," + element.attribute("urlText",""));
-         qDebug(messageDebug.toStdString().c_str());
+         delete nouvelleBorne;
 
          i = i.nextSibling();
      }
 
-     bdd.remplirTab(&m_site);
-     //this->setSite( m_site.getNames());
+     bdd.remplirSite(&m_site);
 }
 
 //http://stackoverflow.com/questions/2660201/what-parameters-should-i-use-in-a-google-maps-url-to-go-to-a-lat-lon
 void Fenetre::afficherCarte(QString nomBorne)
 {
     Borne *borne =  m_site.getBorneByName(nomBorne);
-    QString addresseUrl("http://maps.google.com/?q=" + QString::number(borne->latitude()) + "," + QString::number(borne->longitude()));
-    QDesktopServices::openUrl(QUrl(addresseUrl));
+    if(borne->latitude() != 0.0 || borne->longitude() != 0.0 || borne->altitude() != 0.0)
+    {
+        QString addresseUrl("http://maps.google.com/?q=" + QString::number(borne->latitude()) + "," + QString::number(borne->longitude()));
+        QDesktopServices::openUrl(QUrl(addresseUrl));
+    }
 }
 
 void Fenetre::afficherItineraire(QString nomBorne)
 {
     Borne *borne =  m_site.getBorneByName(nomBorne);
-    QString addresseUrl("http://maps.google.com/maps?&daddr=" + QString::number(borne->latitude()) + "," + QString::number(borne->longitude()));
-    QDesktopServices::openUrl(QUrl(addresseUrl));
+    if(borne->latitude() != 0.0 || borne->longitude() != 0.0 || borne->altitude() != 0.0)
+    {
+        QString addresseUrl("http://maps.google.com/maps?&daddr=" + QString::number(borne->latitude()) + "," + QString::number(borne->longitude()));
+        QDesktopServices::openUrl(QUrl(addresseUrl));
+    }
 }
 
 
 void Fenetre::testsPosition(const QGeoPositionInfo &info)
 {
-    qDebug("debut test positions");
-    QList<QObject *>::const_iterator resultat = std::find_if(m_site.liste().begin(),m_site.liste().end(),FoncteurTestPosition(info));
-    if(resultat != m_site.liste().end())
-    {
-        emit arruverSurBorne((Borne *)*resultat);
-        m_estSurUneBorne = true;
-        emit estSurUneBorneChanged();
-    }
+    if(FENETRE_VERBOSE){qDebug("debut test positions");}
 
-
-
-    qDebug(QString("latitude : ").append(QString::number(info.coordinate().latitude())).append(" longitude : ").append(QString::number(info.coordinate().longitude())).toStdString().c_str());
+    FoncteurTestPosition foncteur(std::for_each(m_site.liste().begin(),m_site.liste().end(),FoncteurTestPosition(info.coordinate())));
+    this->setBorneAProximite(foncteur.borneLaPlusProche());
+    if(FENETRE_VERBOSE){qDebug()<<QString("latitude : ").append(QString::number(info.coordinate().latitude())).append(" longitude : ").append(QString::number(info.coordinate().longitude()));}
     m_latitude = info.coordinate().latitude();
     m_longitude = info.coordinate().longitude();
+
     emit longitudeChanged();
     emit latitudeChanged();
-
-    qDebug("fin test positions");
+    if(FENETRE_VERBOSE){qDebug("fin test positions");}
 }
-
-/*
-const Site &Fenetre::site() const
-{
-    return m_site;
-}
-*/
 
 Borne *Fenetre::borneSelectionne()const
 {
     return m_borneSelectionne;
+}
+
+QString Fenetre::nomPosition()const
+{
+    return m_nomPosition;
+}
+
+Borne *Fenetre::borneAProximite()const
+{
+    return m_borneAProximite;
+}
+
+void Fenetre::setBorneAProximite(Borne *nouvelleBorne)
+{
+    if(nouvelleBorne != m_borneAProximite)
+    {
+        if(nouvelleBorne == NULL)
+        {
+            m_borneAProximite = &borneVide;
+        }
+        else
+        {
+            m_borneAProximite = nouvelleBorne;
+        }
+        emit borneAProximiteChanged();
+    }
+}
+
+Site *Fenetre::site()
+{
+    return (&m_site);
+}
+
+void Fenetre::resetBorneSelectionne()
+{
+    setBorneSelectionne("");
+}
+
+void Fenetre::resetBorneAProximite()
+{
+    setBorneAProximite(&borneVide);
 }

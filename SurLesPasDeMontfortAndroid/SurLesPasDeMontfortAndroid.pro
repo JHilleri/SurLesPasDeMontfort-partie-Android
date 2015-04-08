@@ -8,7 +8,8 @@ SOURCES += main.cpp \
     basededonnees.cpp \
     foncteurs.cpp \
     gps.cpp \
-    fenetre.cpp
+    fenetre.cpp \
+    question.cpp
 
 RESOURCES += qml.qrc \
     audio.qrc \
@@ -27,7 +28,9 @@ HEADERS += \
     basededonnees.h \
     foncteurs.h \
     gps.h \
-    fenetre.h
+    fenetre.h \
+    config.h \
+    question.h
 
 DISTFILES += \
     TextCalvaire.txt

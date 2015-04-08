@@ -2,6 +2,7 @@
 #define GPS_H
 #include <QGeoPositionInfoSource>
 #include <QObject>
+#include "config.h"
 
 
 class GPS :public QObject
@@ -19,21 +20,4 @@ private:
 };
 
 #endif // GPS_H
-/*
-MyClass(QObject *parent = 0)
-      : QObject(parent)
-  {
-      QGeoPositionInfoSource *source = QGeoPositionInfoSource::createDefaultSource(this);
-      if (source) {
-          connect(source, SIGNAL(positionUpdated(QGeoPositionInfo)),
-                  this, SLOT(positionUpdated(QGeoPositionInfo)));
-          source->startUpdates();
-      }
-  }
 
-private slots:
-  void positionUpdated(const QGeoPositionInfo &info)
-  {
-      qDebug() << "Position updated:" << info;
-  }
-*/

@@ -1,6 +1,6 @@
 #include "basededonnees.h"
 
-BaseDeDonnees::BaseDeDonnees():/* QObject(),*/ m_baseDeDonnees(QSqlDatabase::addDatabase("QSQLITE"))
+BaseDeDonnees::BaseDeDonnees(): m_baseDeDonnees(QSqlDatabase::addDatabase("QSQLITE"))
 {
     m_baseDeDonnees.setDatabaseName("SurLesPasDeMontfort");
     if(!m_baseDeDonnees.open())
@@ -8,6 +8,7 @@ BaseDeDonnees::BaseDeDonnees():/* QObject(),*/ m_baseDeDonnees(QSqlDatabase::add
         qDebug("echec de l'ouverture de la base de donne");
     }
     this->creationTables();
+
 }
 
 BaseDeDonnees::~BaseDeDonnees()
@@ -32,13 +33,14 @@ void BaseDeDonnees::creationTables()
             qDebug(query.lastError().text().toStdString().c_str());
         }
         else{
-            qDebug("creation de la table Borne");
+            if(BDD_VERBOSE){qDebug("creation de la table Borne");}
         }
     }
 }
 
 void BaseDeDonnees::ajouterEnregistrement(Borne *borne)
 {
+    /*
     QSqlQuery query;
     QString requete = "INSERT INTO Borne(Nom,Description,Adresse,UrlImage,UrlPisteAudio,UrlTexte,Latitude,Longitude,Altitude) VALUES ('";
     requete.append(borne->nom().toUpper() + "','");
@@ -50,35 +52,56 @@ void BaseDeDonnees::ajouterEnregistrement(Borne *borne)
     requete.append(QString::number(borne->latitude())+ ",");
     requete.append(QString::number(borne->longitude())+ ",");
     requete.append(QString::number(borne->altitude())+  ")");
+    */
+    QSqlQuery requeteAjoutBorne(m_baseDeDonnees);
+    requeteAjoutBorne.prepare("INSERT INTO Borne(Nom,Description,Adresse,UrlImage,UrlPisteAudio,UrlTexte,Latitude,Longitude,Altitude) VALUES "
+                  "(:nom,:description,:addresse,:urlImage,:urlPisteAudio,:urlText,:lattitude,:longitude,:altitude)");
 
-    qDebug(requete.toStdString().c_str());
+    requeteAjoutBorne.bindValue(":nom",borne->nom().toUpper());
+    requeteAjoutBorne.bindValue(":description",borne->description());
+    requeteAjoutBorne.bindValue(":addresse",borne->adresse());
+    requeteAjoutBorne.bindValue(":urlImage",borne->urlImage());
+    requeteAjoutBorne.bindValue(":urlPisteAudio",borne->urlPisteAudio());
+    requeteAjoutBorne.bindValue(":urlText",borne->urlText());
+    requeteAjoutBorne.bindValue(":lattitude",QString::number(borne->latitude()));
+    requeteAjoutBorne.bindValue(":longitude",QString::number(borne->longitude()));
+    requeteAjoutBorne.bindValue(":altitude",QString::number(borne->altitude()));
 
-    if(!query.exec(requete))
+
+    if(!requeteAjoutBorne.exec())
 
     {
-        qDebug("\nechec de l'enregistrement");
-        qDebug(query.lastError().text().toStdString().c_str());
+        qDebug() << "echec de l'enregistrement" << endl << requeteAjoutBorne.lastError().text();
     }
     else{
-        qDebug("ajout d'un nouvel enregistrement");
+        if(BDD_VERBOSE)
+        {
+            QString requete = requeteAjoutBorne.lastQuery();
+            QMapIterator<QString, QVariant> i(requeteAjoutBorne.boundValues());
+            while (i.hasNext())
+            {
+                i.next();
+                requete.replace(i.key(),i.value().toString());
+            }
+            qDebug() << "ajout d'un nouvel enregistrement : " << requete;
+        }
     }
 }
 
-void BaseDeDonnees::remplirTab(Site *site)
+void BaseDeDonnees::remplirSite(Site *site)
 {
     QSqlQuery query;
     Borne *borne;
     if(!query.exec("SELECT Nom, Description, UrlImage, UrlPisteAudio, UrlTexte, Latitude, Longitude, Altitude  FROM Borne"))
     {
-        qDebug(query.lastError().text().toStdString().c_str());
+        qDebug()<<query.lastError().text();
     }
     else
     {
         site->clear();
         while(query.next())
         {
-            //site->ajouter(new Borne(query.value(0).toString(),query.value(1).toString(),query.value(2).toString(),query.value(3).toString(),query.value(4).toString(),query.value(5).toString()));
-            borne = new Borne;
+            borne = new Borne(site);
             borne->setNom(query.value(0).toString());
             borne->setDescription(query.value(1).toString());
             borne->setUrlImage(query.value(2).toString());
@@ -91,36 +114,11 @@ void BaseDeDonnees::remplirTab(Site *site)
         }
     }
 }
-/*
-QStringList BaseDeDonnees::liste()
-{
-    QStringList liste;
-    liste.clear();
-    QSqlQuery query;
-    if(query.exec("SELECT Nom FROM Borne "))
-    {
-
-        while(query.next())
-        {
-            liste.append(query.value(0).toString());
-        }
-    }
-    else
-    {
-        qDebug(query.lastError().text().toStdString().c_str());
-    }
-    return liste;
-}*/
-/*
-void BaseDeDonnees::setListe(QStringList liste)
-{
-    m_liste = liste;
-}*/
 
 void BaseDeDonnees::clear()
 {
     QSqlQuery query;
-    qDebug("suppression de la base de donnees");
+    if(BDD_VERBOSE){qDebug("suppression de la base de donnees");}
     if(!query.exec("DELETE FROM Borne;"))
     {
             qDebug("echec de la suppression de la base de donnee");

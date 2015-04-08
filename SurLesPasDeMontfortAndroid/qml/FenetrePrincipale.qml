@@ -2,6 +2,7 @@ import QtQuick 2.4
 import QtQuick.Controls 1.3
 import QtQuick.Window 2.2
 import QtQuick.Dialogs 1.2
+import site 1.0
 
 
 
@@ -36,7 +37,7 @@ ApplicationWindow {
                     }
                 }
                 MenuItem{
-                    text: (fenetre.estSurUneBorne)?"est sur une borne":"n'est pas sur une borne"
+                    text: fenetre.borneAProximite.nom
                 }
                 MenuItem{
                     text: "longitude : " + fenetre.longitude
@@ -53,8 +54,8 @@ ApplicationWindow {
         anchors.right: parent.right
         anchors.left: parent.left
         anchors.bottom: (root.lectureEnCours)?barreAudio.top : parent.bottom
+        anchors.bottomMargin: 0
         anchors.top: parent.top
-       // anchors.bottomMargin: (root.lectureEnCours)?60:0
 
         FenetreSite{
             id:fenetreListe
@@ -73,7 +74,7 @@ ApplicationWindow {
         }
     }
 
-    BarreControleAudio{
+    LecteurAudio{
         id:barreAudio
         anchors.left: parent.left
         anchors.right: parent.right
@@ -82,5 +83,4 @@ ApplicationWindow {
         onFinLecture: root.lectureEnCours = false
         onDebutLecture: root.lectureEnCours = true
     }
-
 }

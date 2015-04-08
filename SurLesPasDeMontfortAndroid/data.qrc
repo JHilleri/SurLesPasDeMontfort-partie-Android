@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>data/Site.xml</file>
+        <file>data/Quizz.xml</file>
     </qresource>
 </RCC>
