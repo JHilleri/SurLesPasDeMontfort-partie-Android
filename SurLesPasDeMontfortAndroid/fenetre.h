@@ -20,6 +20,8 @@
 #include "basededonnees.h"
 #include "gps.h"
 #include "config.h"
+#include "quizz.h"
+#include "question.h"
 
 class Fenetre : public QObject
 {
@@ -32,6 +34,7 @@ class Fenetre : public QObject
     Q_PROPERTY(Borne* borneSelectionne READ borneSelectionne WRITE setBorneSelectionne NOTIFY borneSelectionneChanged)
     Q_PROPERTY(Borne* borneAProximite READ borneAProximite WRITE setBorneAProximite NOTIFY borneAProximiteChanged)
     Q_PROPERTY(Site* site READ site)
+    Q_PROPERTY(Quizz* quizz READ quizz)
 
 public:
     explicit Fenetre(QObject *parent = 0);
@@ -42,7 +45,8 @@ public:
     Borne *borneSelectionne()const;
     Borne *borneAProximite()const;
     QString nomPosition()const;
-     Site *site();
+    Site *site();
+    Quizz *quizz();
 
 signals:
     void siteChanged();
@@ -64,6 +68,7 @@ public slots:
     void testsPosition(const QGeoPositionInfo &info);
 
     Q_INVOKABLE void setBorneSelectionne(QString nomBorne);
+    Q_INVOKABLE void lireQuizz(QString nomBorne);
     void setBorneSelectionne(Borne *borneSelectionne);
     void setBorneAProximite(Borne *nouvelleBorne);
 
@@ -71,6 +76,8 @@ public slots:
     void resetBorneAProximite();
 private:
     Site m_site;
+    Quizz m_quizz;
+
     QQmlApplicationEngine m_engine;
     BaseDeDonnees bdd;
     GPS m_gps;

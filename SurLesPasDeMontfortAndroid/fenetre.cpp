@@ -2,7 +2,7 @@
 
 
 
-Fenetre::Fenetre(QObject *parent) : QObject(parent),m_borneSelectionne(&borneVide),m_gps(this),m_site(this),m_borneAProximite(&borneVide)
+Fenetre::Fenetre(QObject *parent) : QObject(parent),m_borneSelectionne(&borneVide),m_gps(this),m_site(this),m_borneAProximite(&borneVide),m_quizz(this)
 {
     bdd.remplirSite(&m_site);
     connect(&m_gps,SIGNAL(nouvellePosition(QGeoPositionInfo)),this,SLOT(testsPosition(QGeoPositionInfo)));
@@ -40,19 +40,23 @@ void Fenetre::setBorneSelectionne(QString nomBorne)
     Borne *borne = m_site.getBorneByName(nomBorne);
     if(borne != NULL)
     {
-        m_borneSelectionne = borne;
+        this->setBorneSelectionne(borne);
     }
     else
     {
-        m_borneSelectionne = &borneVide;
+        this->setBorneSelectionne(&borneVide);
     }
-    emit borneSelectionneChanged();
 }
 
 void Fenetre::setBorneSelectionne(Borne *borneSelectionne)
 {
     m_borneSelectionne = borneSelectionne;
     emit borneSelectionneChanged();
+}
+
+void Fenetre::lireQuizz(QString nomBorne)
+{
+    bdd.remplirQuizz(&m_quizz,nomBorne);
 }
 
 void Fenetre::lireSiteXML()
@@ -160,6 +164,11 @@ void Fenetre::setBorneAProximite(Borne *nouvelleBorne)
 Site *Fenetre::site()
 {
     return (&m_site);
+}
+
+Quizz *Fenetre::quizz()
+{
+    return (&m_quizz);
 }
 
 void Fenetre::resetBorneSelectionne()

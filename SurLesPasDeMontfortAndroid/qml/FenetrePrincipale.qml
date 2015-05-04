@@ -22,8 +22,26 @@ ApplicationWindow {
       property int fenetreBorne: 1
       property int fenetreQuizz: 2
     }
-
-
+    onContentItemChanged: {
+        if(root.fenetreEnCours === enumFenetres.fenetreSite)
+        {
+            root.title = qsTr("sur les pas de montfort")
+        }
+        else
+        {
+            if(root.fenetreEnCours === enumFenetres.fenetreSite)
+            {
+                root.title = fenetre.borneSelectionne.nom
+            }
+            else
+            {
+                if(root.fenetreEnCours === enumFenetres.fenetreQuizz)
+                {
+                    root.title = qsTr("Quizz")
+                }
+            }
+        }
+    }
 
     menuBar: MenuBar {
             Menu {
@@ -44,6 +62,13 @@ ApplicationWindow {
                 }
                 MenuItem{
                     text: "latitude : " + fenetre.latitude
+                }
+                MenuItem{
+                    text: "jouer quizz"
+                    onTriggered: {
+                        root.fenetreEnCours = enumFenetres.fenetreQuizz;
+                        fenetreQuizz.initQuestion()
+                    }
                 }
             }
         }
@@ -71,6 +96,14 @@ ApplicationWindow {
             focus: (root.fenetreEnCours === enumFenetres.fenetreBorne)?true:false
             onRetour: {fenetreEnCours = enumFenetres.fenetreSite;}
             onDebuterLecture: {barreAudio.debuterLecture(urlFichierAudio)}
+        }
+
+        FenetreQuizz{
+            id:fenetreQuizz
+            anchors.fill: zoneFenetres
+            visible: (root.fenetreEnCours === enumFenetres.fenetreQuizz)?true:false
+            focus: (root.fenetreEnCours === enumFenetres.fenetreQuizz)?true:false
+            onRetour: {fenetreEnCours = enumFenetres.fenetreSite;}
         }
     }
 

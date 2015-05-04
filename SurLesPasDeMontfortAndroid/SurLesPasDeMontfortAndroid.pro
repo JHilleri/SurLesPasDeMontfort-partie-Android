@@ -9,7 +9,8 @@ SOURCES += main.cpp \
     foncteurs.cpp \
     gps.cpp \
     fenetre.cpp \
-    question.cpp
+    question.cpp \
+    quizz.cpp
 
 RESOURCES += qml.qrc \
     audio.qrc \
@@ -30,7 +31,8 @@ HEADERS += \
     gps.h \
     fenetre.h \
     config.h \
-    question.h
+    question.h \
+    quizz.h
 
 DISTFILES += \
     TextCalvaire.txt

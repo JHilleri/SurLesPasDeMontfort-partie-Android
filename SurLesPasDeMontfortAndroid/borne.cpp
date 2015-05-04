@@ -178,7 +178,7 @@ void Borne::operator=(const Borne &borne)
     this->setUrlImage(borne.urlImage());
     this->setUrlPisteAudio(borne.urlPisteAudio());
     this->setUrlText(borne.urlText());
-    testUrlPisteAudio();
+    this->testUrlPisteAudio();
 }
 
 

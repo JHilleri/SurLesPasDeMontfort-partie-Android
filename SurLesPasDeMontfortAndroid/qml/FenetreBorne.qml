@@ -10,6 +10,7 @@ Rectangle {
     signal retour
 
     signal debuterLecture(string urlFichierAudio)
+    property bool aUneAdresse: (fenetre.borneSelectionne.altitude != 0.0 || fenetre.borneSelectionne.latitude != 0.0 || fenetre.borneSelectionne.longitude != 0.0) ? true : false
 
     Keys.onReleased: {
     if (event.key === Qt.Key_Back) {
@@ -34,12 +35,13 @@ Rectangle {
         anchors.left: parent.left
         anchors.bottom: btnPosition.top
         anchors.top: titre.bottom
+        selectByMouse: false
     }
 
     Bouton{
         id:btnPosition
         anchors.left: parent.left
-        enabled: (fenetre.borneSelectionne.altitude != 0.0 || fenetre.borneSelectionne.latitude != 0.0 || fenetre.borneSelectionne.longitude != 0.0) ? true : false
+        enabled: (root.aUneAdresse) ? true : false
         width: parent.width/3
         anchors.bottom: parent.bottom
         text: "Position"
@@ -53,7 +55,7 @@ Rectangle {
         anchors.left: btnPosition.right
         width: parent.width/3
         anchors.bottom: parent.bottom
-        enabled: (fenetre.borneSelectionne.altitude != 0.0 || fenetre.borneSelectionne.latitude != 0.0 || fenetre.borneSelectionne.longitude != 0.0) ? true : false
+        enabled: (root.aUneAdresse) ? true : false
         text: "Itineraire"
         border.color: "#ffffff"
         onClicked: fenetre.afficherItineraire(fenetre.borneSelectionne.nom)

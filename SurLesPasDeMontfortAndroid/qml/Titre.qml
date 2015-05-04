@@ -13,7 +13,8 @@ Rectangle {
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignHCenter
         anchors.fill: parent
-        font.pixelSize: 30
+        //font.pixelSize: 30
+        fontSizeMode: Text.Fit
     }
 }
 

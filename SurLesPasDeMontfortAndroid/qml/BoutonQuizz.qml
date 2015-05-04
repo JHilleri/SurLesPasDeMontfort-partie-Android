@@ -5,24 +5,24 @@ Rectangle {
     property string text: ""
     id:root
     height: 60
-    color: (root.enabled)?"#6e0917":"#424242"
-    border.color: "#ffffff"
-    border.width: 5
-
+    color: "#ffffff"
+    border.color: "#000000"
+    border.width: 1
+    border.pixelAligned:
     Text{
-        color: "#ffffff"
+        color: "#000000"
         text: root.text
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignHCenter
         anchors.fill: parent
         font.pixelSize: 30
+        fontSizeMode: Text.Fit
     }
-
     MouseArea{
         anchors.fill: parent
-        onClicked: {root.clicked();
-            console.debug("'" + root.text + "' button clicked");
+        onClicked: {
+            console.debug("quizz : choix de la reponse : " + root.text)
+            root.clicked();
         }
     }
 }
-

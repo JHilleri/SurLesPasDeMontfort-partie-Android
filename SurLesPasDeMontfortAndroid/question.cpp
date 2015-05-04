@@ -16,7 +16,8 @@ Question::Question(const QDomElement &datas, QObject *parent): QObject(parent),
     m_mauvaiseReponse1(datas.attribute("m_mauvaiseReponse1")),
     m_mauvaiseReponse2(datas.attribute("m_mauvaiseReponse2")),
     m_mauvaiseReponse3(datas.attribute("m_mauvaiseReponse3")),
-    m_question(datas.attribute("m_question"))
+    m_question(datas.attribute("m_question")),
+    m_nomBorne(datas.attribute("borne"))
 {}
 
 QString Question::question()const
@@ -31,17 +32,22 @@ QString Question::bonneReponse()const
 
 QString Question::mauvaiseReponse1()const
 {
-    return mauvaiseReponse1();
+    return m_mauvaiseReponse1;
 }
 
 QString Question::mauvaiseReponse2()const
 {
-    return mauvaiseReponse2();
+    return m_mauvaiseReponse2;
 }
 
 QString Question::mauvaiseReponse3()const
 {
-    return mauvaiseReponse3();
+    return m_mauvaiseReponse3;
+}
+
+QString Question::nomBorne()const
+{
+    return m_nomBorne;
 }
 
 void Question::setQuestion(QString question)
@@ -62,13 +68,13 @@ void Question::setMauvaiseReponse1(QString mauvaiseReponse1)
     emit mauvaiseReponse1Changed();
 }
 
-void Question::setmauvaiseReponse2(QString mauvaiseReponse2)
+void Question::setMauvaiseReponse2(QString mauvaiseReponse2)
 {
     m_mauvaiseReponse2 = mauvaiseReponse2;
     emit mauvaiseReponse2Changed();
 }
 
-void Question::setmauvaiseReponse3(QString mauvaiseReponse3)
+void Question::setMauvaiseReponse3(QString mauvaiseReponse3)
 {
     m_mauvaiseReponse3 = mauvaiseReponse3;
     emit mauvaiseReponse3Changed();
@@ -76,9 +82,16 @@ void Question::setmauvaiseReponse3(QString mauvaiseReponse3)
 
 void Question::setDatas(const QDomElement &datas)
 {
-    m_bonneReponse=datas.attribute("bonneReponse");
-    m_mauvaiseReponse1=datas.attribute("m_mauvaiseReponse1");
-    m_mauvaiseReponse2=datas.attribute("m_mauvaiseReponse2");
-    m_mauvaiseReponse3=datas.attribute("m_mauvaiseReponse3");
-    m_question=datas.attribute("m_question");
+    this->setBonneReponse(datas.attribute("bonneReponse"));
+    this->setMauvaiseReponse1(datas.attribute("m_mauvaiseReponse1"));
+    this->setMauvaiseReponse2(datas.attribute("m_mauvaiseReponse2"));
+    this->setMauvaiseReponse3(datas.attribute("m_mauvaiseReponse3"));
+    this->setQuestion(datas.attribute("m_question"));
+    this->setNomBorne(datas.attribute("borne"));
+}
+
+void Question::setNomBorne(QString nomBorne)
+{
+    m_nomBorne = nomBorne;
+    emit nomBorneChanged();
 }

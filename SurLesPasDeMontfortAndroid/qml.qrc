@@ -7,5 +7,6 @@
         <file>qml/Bouton.qml</file>
         <file>qml/LecteurAudio.qml</file>
         <file>qml/FenetreQuizz.qml</file>
+        <file>qml/BoutonQuizz.qml</file>
     </qresource>
 </RCC>

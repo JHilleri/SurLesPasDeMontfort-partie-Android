@@ -12,8 +12,9 @@ class Question : public QObject
     Q_PROPERTY(QString question READ question WRITE setQuestion NOTIFY questionChanged)
     Q_PROPERTY(QString bonneReponse READ bonneReponse WRITE setBonneReponse NOTIFY bonneReponseChanged)
     Q_PROPERTY(QString mauvaiseReponse1 READ mauvaiseReponse1 WRITE setMauvaiseReponse1 NOTIFY mauvaiseReponse1Changed)
-    Q_PROPERTY(QString mauvaiseReponse2 READ mauvaiseReponse2 WRITE setmauvaiseReponse2 NOTIFY mauvaiseReponse2Changed)
-    Q_PROPERTY(QString mauvaiseReponse3 READ mauvaiseReponse3 WRITE setmauvaiseReponse3 NOTIFY mauvaiseReponse3Changed)
+    Q_PROPERTY(QString mauvaiseReponse2 READ mauvaiseReponse2 WRITE setMauvaiseReponse2 NOTIFY mauvaiseReponse2Changed)
+    Q_PROPERTY(QString mauvaiseReponse3 READ mauvaiseReponse3 WRITE setMauvaiseReponse3 NOTIFY mauvaiseReponse3Changed)
+    Q_PROPERTY(QString nomBorne READ nomBorne WRITE setNomBorne NOTIFY nomBorneChanged)
     //Q_PROPERTY(QString urlImage READ urlImage WRITE setUrlImage NOTIFY urlImageChanged)
 public:
     explicit Question(QObject *parent = 0);
@@ -25,6 +26,7 @@ public:
     QString mauvaiseReponse1()const;
     QString mauvaiseReponse2()const;
     QString mauvaiseReponse3()const;
+    QString nomBorne()const;
     //QString urlImage()const;
 
     void setDatas(const QDomElement &datas);
@@ -36,14 +38,16 @@ signals:
     void mauvaiseReponse1Changed();
     void mauvaiseReponse2Changed();
     void mauvaiseReponse3Changed();
+    void nomBorneChanged();
     //void urlImageChanged();
 
 public slots:
     void setQuestion(QString question);
     void setBonneReponse(QString bonneReponse);
     void setMauvaiseReponse1(QString mauvaiseReponse1);
-    void setmauvaiseReponse2(QString mauvaiseReponse2);
-    void setmauvaiseReponse3(QString mauvaiseReponse3);
+    void setMauvaiseReponse2(QString mauvaiseReponse2);
+    void setMauvaiseReponse3(QString mauvaiseReponse3);
+    void setNomBorne(QString nomBorne);
     //void setUrlImage(QString urlImage);
 private:
     QString m_question;
@@ -51,6 +55,7 @@ private:
     QString m_mauvaiseReponse1;
     QString m_mauvaiseReponse2;
     QString m_mauvaiseReponse3;
+    QString m_nomBorne;
     //QString m_urlImage;
 };
 
