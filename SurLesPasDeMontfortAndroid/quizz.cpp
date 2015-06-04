@@ -1,6 +1,13 @@
 #include "quizz.h"
 
-Quizz::Quizz(QObject *parent) : QObject(parent), m_questionEnCours(&m_questionVide)
+/*!
+  \class Quizz
+  \brief La classe Quizz contient les questions lies a une borne
+  \inmodule Quizz
+ */
+
+
+Quizz::Quizz(QObject *parent) : QObject(parent), m_questionEnCours(m_liste.end())
 {
     m_questionVide.setQuestion("question 0");
     m_questionVide.setBonneReponse("bonne reponse");
@@ -47,13 +54,53 @@ int Quizz::count()
     return m_liste.count();
 }
 
-Question *Quizz::questionEnCours()const
+Question *Quizz::questionEnCours()
 {
-    return m_questionEnCours;
+    if(m_questionEnCours != m_liste.end())
+    {
+        return (Question*)*m_questionEnCours;
+    }
+    else
+    {
+        return &m_questionVide;
+    }
 }
 
+unsigned int Quizz::triesCount() const
+{
+    return m_triesCount;
+}
+/*
 void Quizz::setQuestionEnCours(Question *question)
 {
     m_questionEnCours = question;
     emit questionEnCoursChanged();
+}*/
+
+bool Quizz::questionSuivante()
+{
+    if( m_liste.count() > 0 && ++m_questionEnCours != m_liste.end())
+    {
+        emit questionEnCoursChanged();
+        return true;
+    }
+    return false;
+}
+
+void Quizz::debutQuizz()
+{
+    if(m_liste.count() > 0)
+    {
+        m_questionEnCours = m_liste.begin();
+        emit questionEnCoursChanged();
+    }
+}
+
+void Quizz::setTriesCount(unsigned int arg)
+{
+    if (m_triesCount == arg)
+        return;
+
+    m_triesCount = arg;
+    emit triesCountChanged(arg);
 }

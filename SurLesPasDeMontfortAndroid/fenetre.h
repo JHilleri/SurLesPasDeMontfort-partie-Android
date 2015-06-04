@@ -33,8 +33,8 @@ class Fenetre : public QObject
 
     Q_PROPERTY(Borne* borneSelectionne READ borneSelectionne WRITE setBorneSelectionne NOTIFY borneSelectionneChanged)
     Q_PROPERTY(Borne* borneAProximite READ borneAProximite WRITE setBorneAProximite NOTIFY borneAProximiteChanged)
-    Q_PROPERTY(Site* site READ site)
-    Q_PROPERTY(Quizz* quizz READ quizz)
+    Q_PROPERTY(Site* site READ site NOTIFY siteChanged)
+    Q_PROPERTY(Quizz* quizz READ quizz NOTIFY quizzChanged)
 
 public:
     explicit Fenetre(QObject *parent = 0);
@@ -51,24 +51,25 @@ public:
 signals:
     void siteChanged();
     void borneSelectionneChanged();
-    void arruverSurBorne(Borne *borne);
+    void arriverSurBorne(Borne *borne);
     void estSurUneBorneChanged();
     void latitudeChanged();
     void longitudeChanged();
     void nomPositionChanged();
     void borneAProximiteChanged();
-
+    void quizzChanged();
 
 public slots:
 
     Q_INVOKABLE void afficherCarte(QString nomBorne);
     Q_INVOKABLE void afficherItineraire(QString nomBorne);
-    Q_INVOKABLE void lireSiteXML();
+    Q_INVOKABLE void lireXML();
 
-    void testsPosition(const QGeoPositionInfo &info);
+    void testsPosition(QGeoPositionInfo &info);
 
     Q_INVOKABLE void setBorneSelectionne(QString nomBorne);
     Q_INVOKABLE void lireQuizz(QString nomBorne);
+
     void setBorneSelectionne(Borne *borneSelectionne);
     void setBorneAProximite(Borne *nouvelleBorne);
 

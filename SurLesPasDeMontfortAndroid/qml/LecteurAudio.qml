@@ -4,6 +4,9 @@ import QtQuick.Dialogs 1.2
 import QtMultimedia 5.0
 import site 1.0
 
+/*!
+  \qmlclass LecteurAudio
+*/
 Rectangle {
     id:root
     color: "#ffffff"

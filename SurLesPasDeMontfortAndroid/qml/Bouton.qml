@@ -1,5 +1,8 @@
 import QtQuick 2.0
 
+/*!
+  \qmlclass Bouton
+*/
 Rectangle {
     signal clicked
     property string text: ""
@@ -12,6 +15,7 @@ Rectangle {
     Text{
         color: "#ffffff"
         text: root.text
+        id:champText
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignHCenter
         anchors.fill: parent
@@ -19,6 +23,7 @@ Rectangle {
     }
 
     MouseArea{
+        id:mouseArea
         anchors.fill: parent
         onClicked: {root.clicked();
             console.debug("'" + root.text + "' button clicked");

@@ -1,0 +1,24 @@
+C:\ProjetIris\code\SurLesPasDeMontfort-partie-Android\build-SurLesPasDeMontfortAndroid-Android_for_armeabi_v7a_GCC_4_9_Qt_5_4_1-Debug\android-build\gen\org\qtproject\example\SurLesPasDeMontfortAndroid\R.java \
+ : C:\ProjetIris\code\SurLesPasDeMontfort-partie-Android\build-SurLesPasDeMontfortAndroid-Android_for_armeabi_v7a_GCC_4_9_Qt_5_4_1-Debug\android-build\res\layout\splash.xml \
+C:\ProjetIris\code\SurLesPasDeMontfort-partie-Android\build-SurLesPasDeMontfortAndroid-Android_for_armeabi_v7a_GCC_4_9_Qt_5_4_1-Debug\android-build\res\values\libs.xml \
+C:\ProjetIris\code\SurLesPasDeMontfort-partie-Android\build-SurLesPasDeMontfortAndroid-Android_for_armeabi_v7a_GCC_4_9_Qt_5_4_1-Debug\android-build\res\values\strings.xml \
+C:\ProjetIris\code\SurLesPasDeMontfort-partie-Android\build-SurLesPasDeMontfortAndroid-Android_for_armeabi_v7a_GCC_4_9_Qt_5_4_1-Debug\android-build\res\values-de\strings.xml \
+C:\ProjetIris\code\SurLesPasDeMontfort-partie-Android\build-SurLesPasDeMontfortAndroid-Android_for_armeabi_v7a_GCC_4_9_Qt_5_4_1-Debug\android-build\res\values-el\strings.xml \
+C:\ProjetIris\code\SurLesPasDeMontfort-partie-Android\build-SurLesPasDeMontfortAndroid-Android_for_armeabi_v7a_GCC_4_9_Qt_5_4_1-Debug\android-build\res\values-es\strings.xml \
+C:\ProjetIris\code\SurLesPasDeMontfort-partie-Android\build-SurLesPasDeMontfortAndroid-Android_for_armeabi_v7a_GCC_4_9_Qt_5_4_1-Debug\android-build\res\values-et\strings.xml \
+C:\ProjetIris\code\SurLesPasDeMontfort-partie-Android\build-SurLesPasDeMontfortAndroid-Android_for_armeabi_v7a_GCC_4_9_Qt_5_4_1-Debug\android-build\res\values-fa\strings.xml \
+C:\ProjetIris\code\SurLesPasDeMontfort-partie-Android\build-SurLesPasDeMontfortAndroid-Android_for_armeabi_v7a_GCC_4_9_Qt_5_4_1-Debug\android-build\res\values-fr\strings.xml \
+C:\ProjetIris\code\SurLesPasDeMontfort-partie-Android\build-SurLesPasDeMontfortAndroid-Android_for_armeabi_v7a_GCC_4_9_Qt_5_4_1-Debug\android-build\res\values-id\strings.xml \
+C:\ProjetIris\code\SurLesPasDeMontfort-partie-Android\build-SurLesPasDeMontfortAndroid-Android_for_armeabi_v7a_GCC_4_9_Qt_5_4_1-Debug\android-build\res\values-it\strings.xml \
+C:\ProjetIris\code\SurLesPasDeMontfort-partie-Android\build-SurLesPasDeMontfortAndroid-Android_for_armeabi_v7a_GCC_4_9_Qt_5_4_1-Debug\android-build\res\values-ja\strings.xml \
+C:\ProjetIris\code\SurLesPasDeMontfort-partie-Android\build-SurLesPasDeMontfortAndroid-Android_for_armeabi_v7a_GCC_4_9_Qt_5_4_1-Debug\android-build\res\values-ms\strings.xml \
+C:\ProjetIris\code\SurLesPasDeMontfort-partie-Android\build-SurLesPasDeMontfortAndroid-Android_for_armeabi_v7a_GCC_4_9_Qt_5_4_1-Debug\android-build\res\values-nb\strings.xml \
+C:\ProjetIris\code\SurLesPasDeMontfort-partie-Android\build-SurLesPasDeMontfortAndroid-Android_for_armeabi_v7a_GCC_4_9_Qt_5_4_1-Debug\android-build\res\values-nl\strings.xml \
+C:\ProjetIris\code\SurLesPasDeMontfort-partie-Android\build-SurLesPasDeMontfortAndroid-Android_for_armeabi_v7a_GCC_4_9_Qt_5_4_1-Debug\android-build\res\values-pl\strings.xml \
+C:\ProjetIris\code\SurLesPasDeMontfort-partie-Android\build-SurLesPasDeMontfortAndroid-Android_for_armeabi_v7a_GCC_4_9_Qt_5_4_1-Debug\android-build\res\values-pt-rBR\strings.xml \
+C:\ProjetIris\code\SurLesPasDeMontfort-partie-Android\build-SurLesPasDeMontfortAndroid-Android_for_armeabi_v7a_GCC_4_9_Qt_5_4_1-Debug\android-build\res\values-ro\strings.xml \
+C:\ProjetIris\code\SurLesPasDeMontfort-partie-Android\build-SurLesPasDeMontfortAndroid-Android_for_armeabi_v7a_GCC_4_9_Qt_5_4_1-Debug\android-build\res\values-rs\strings.xml \
+C:\ProjetIris\code\SurLesPasDeMontfort-partie-Android\build-SurLesPasDeMontfortAndroid-Android_for_armeabi_v7a_GCC_4_9_Qt_5_4_1-Debug\android-build\res\values-ru\strings.xml \
+C:\ProjetIris\code\SurLesPasDeMontfort-partie-Android\build-SurLesPasDeMontfortAndroid-Android_for_armeabi_v7a_GCC_4_9_Qt_5_4_1-Debug\android-build\res\values-zh-rCN\strings.xml \
+C:\ProjetIris\code\SurLesPasDeMontfort-partie-Android\build-SurLesPasDeMontfortAndroid-Android_for_armeabi_v7a_GCC_4_9_Qt_5_4_1-Debug\android-build\res\values-zh-rTW\strings.xml \
+C:\ProjetIris\code\SurLesPasDeMontfort-partie-Android\build-SurLesPasDeMontfortAndroid-Android_for_armeabi_v7a_GCC_4_9_Qt_5_4_1-Debug\android-build\bin\AndroidManifest.xml \

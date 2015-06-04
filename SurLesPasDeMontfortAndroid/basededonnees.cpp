@@ -1,5 +1,14 @@
 #include "basededonnees.h"
 
+/*!
+ * \class BaseDeDonnees
+ * \brief La classe BaseDeDonnees regroupe les interactions avec la base de donnee
+ * \inmodule BDD
+ */
+
+/*!
+ * \brief Construit une Base de donnee
+ */
 BaseDeDonnees::BaseDeDonnees(): m_baseDeDonnees(QSqlDatabase::addDatabase("QSQLITE"))
 {
     m_baseDeDonnees.setDatabaseName("SurLesPasDeMontfort");
@@ -12,11 +21,14 @@ BaseDeDonnees::BaseDeDonnees(): m_baseDeDonnees(QSqlDatabase::addDatabase("QSQLI
     m_queryAjouterBorne->prepare("INSERT INTO Borne(Nom,Description,Adresse,UrlImage,UrlPisteAudio,UrlTexte,Latitude,Longitude,Altitude) VALUES "
                   "(:nom,:description,:addresse,:urlImage,:urlPisteAudio,:urlText,:lattitude,:longitude,:altitude)");
     m_queryAjouterQuestion = new QSqlQuery(m_baseDeDonnees);
-    m_queryAjouterQuestion->prepare("INSERT INTO Question(IdBorne,Question,BonneReponse,MauvaiseReponse1,MauvaiseReponse2,MauvaiseReponse3)"
-                                    " VALUES :IdBorne,:Question,:BonneReponse,:MauvaiseReponse1,:MauvaiseReponse2,:MauvaiseReponse3");
+    m_queryAjouterQuestion->prepare("INSERT INTO Question(NomBorne,Question,BonneReponse,MauvaiseReponse1,MauvaiseReponse2,MauvaiseReponse3)"
+                                    " VALUES (:NomBorne,:Question,:BonneReponse,:MauvaiseReponse1,:MauvaiseReponse2,:MauvaiseReponse3)");
 
 }
 
+/*!
+ * \brief Detruit une base de donnee
+ */
 BaseDeDonnees::~BaseDeDonnees()
 {
     delete m_queryAjouterBorne;
@@ -24,6 +36,9 @@ BaseDeDonnees::~BaseDeDonnees()
     m_baseDeDonnees.close();
 }
 
+/*!
+ * \brief Creez les tables de la base de donnee
+ */
 void BaseDeDonnees::creationTables()
 {
     QSqlQuery query;
@@ -47,7 +62,7 @@ void BaseDeDonnees::creationTables()
     if(!(m_baseDeDonnees.tables().contains("Question")))
     {
         if(!query.exec("CREATE TABLE Question (IdQuestion INTEGER PRIMARY KEY AUTOINCREMENT,"
-                       " IdBorne INTEGER, Question VARCHAR(255), BonneReponse VARCHAR(255),"
+                       " NomBorne VARCHAR(255), Question VARCHAR(255) UNIQUE, BonneReponse VARCHAR(255),"
                        " MauvaiseReponse1 VARCHAR(255), MauvaiseReponse2 VARCHAR(255),"
                        " MauvaiseReponse3 VARCHAR(255), Commentaire VARCHAR(255))"))
         {
@@ -57,24 +72,11 @@ void BaseDeDonnees::creationTables()
     }
 }
 
-void BaseDeDonnees::ajouterEnregistrement(Borne *borne)
+/*!
+ * \brief Ajoute la Borne \a borne dans la table Borne de la base de donnee
+ */
+void BaseDeDonnees::ajouterBorne(Borne *borne)
 {
-    /*
-    QSqlQuery query;
-    QString requete = "INSERT INTO Borne(Nom,Description,Adresse,UrlImage,UrlPisteAudio,UrlTexte,Latitude,Longitude,Altitude) VALUES ('";
-    requete.append(borne->nom().toUpper() + "','");
-    requete.append(borne->description() + "','");
-    requete.append(borne->adresse()+ "','");
-    requete.append(borne->urlImage()+ "','");
-    requete.append(borne->urlPisteAudio()+ "','");
-    requete.append(borne->urlText()+ "',");
-    requete.append(QString::number(borne->latitude())+ ",");
-    requete.append(QString::number(borne->longitude())+ ",");
-    requete.append(QString::number(borne->altitude())+  ")");
-    */
-    //QSqlQuery requeteAjoutBorne(m_baseDeDonnees);
-
-
     m_queryAjouterBorne->bindValue(":nom",borne->nom().toUpper());
     m_queryAjouterBorne->bindValue(":description",borne->description());
     m_queryAjouterBorne->bindValue(":addresse",borne->adresse());
@@ -90,6 +92,7 @@ void BaseDeDonnees::ajouterEnregistrement(Borne *borne)
 
     {
         qDebug() << "echec de l'enregistrement" << endl << m_queryAjouterBorne->lastError().text();
+        m_queryAjouterBorne->lastQuery();
     }
     else{
         if(BDD_VERBOSE)
@@ -106,43 +109,40 @@ void BaseDeDonnees::ajouterEnregistrement(Borne *borne)
     }
 }
 
+/*!
+ * \brief Ajoute la Question \a question dans la table Question de la base de donnee
+ */
 void BaseDeDonnees::ajouterQuestion(Question *question)
 {
-    QSqlQuery queryNon;
-    if(!queryNon.exec("SELECT IdBorne FROM Borne WERE Nom = " + question->nomBorne() + ";"))
-    {
-        qDebug() << "BDD: echec de la requete de l'id de la borne avec son nom";
-        qDebug() << "BDD: " << queryNon.lastError().text();
-    }
-    else
-    {
-        m_queryAjouterQuestion->bindValue(":IdBorne",queryNon.value(0).toString());
-        m_queryAjouterQuestion->bindValue(":Question",question->question());
-        m_queryAjouterQuestion->bindValue(":BonneReponse",question->bonneReponse());
-        m_queryAjouterQuestion->bindValue(":MauvaiseReponse1",question->mauvaiseReponse1());
-        m_queryAjouterQuestion->bindValue(":MauvaiseReponse2",question->mauvaiseReponse2());
-        m_queryAjouterQuestion->bindValue(":MauvaiseReponse3",question->mauvaiseReponse3());
-        if(!m_queryAjouterQuestion->exec())
 
+    m_queryAjouterQuestion->prepare("INSERT INTO Question(NomBorne,Question,BonneReponse,MauvaiseReponse1,MauvaiseReponse2,MauvaiseReponse3)"
+                    " VALUES (:NomBorne,:Question,:BonneReponse,:MauvaiseReponse1,:MauvaiseReponse2,:MauvaiseReponse3)");
+    m_queryAjouterQuestion->bindValue(":NomBorne",question->nomBorne());
+    m_queryAjouterQuestion->bindValue(":Question",question->question());
+    m_queryAjouterQuestion->bindValue(":BonneReponse",question->bonneReponse());
+    m_queryAjouterQuestion->bindValue(":MauvaiseReponse1",question->mauvaiseReponse1());
+    m_queryAjouterQuestion->bindValue(":MauvaiseReponse2",question->mauvaiseReponse2());
+    m_queryAjouterQuestion->bindValue(":MauvaiseReponse3",question->mauvaiseReponse3());
+    if(!m_queryAjouterQuestion->exec())
+    {
+        qDebug() << "BDD: echec de l'enregistrement" << endl << m_queryAjouterQuestion->lastError().text();
+    }
+    if(BDD_VERBOSE)
+    {
+        QString requete = m_queryAjouterQuestion->lastQuery();
+        QMapIterator<QString, QVariant> i(m_queryAjouterQuestion->boundValues());
+        while (i.hasNext())
         {
-            qDebug() << "BDD: echec de l'enregistrement" << endl << m_queryAjouterQuestion->lastError().text();
+            i.next();
+            requete.replace(i.key(),i.value().toString());
         }
-        else{
-            if(BDD_VERBOSE)
-            {
-                QString requete = m_queryAjouterQuestion->lastQuery();
-                QMapIterator<QString, QVariant> i(m_queryAjouterQuestion->boundValues());
-                while (i.hasNext())
-                {
-                    i.next();
-                    requete.replace(i.key(),i.value().toString());
-                }
-                qDebug() << "BDD: ajout d'une nouvelle question : " << requete;
-            }
-        }
+        qDebug() << "BDD: ajout d'une nouvelle question : " << requete;
     }
 }
 
+/*!
+ * \brief Remplie le Site \a site avec les enregistrements de la table Borne de la base de donnee
+ */
 void BaseDeDonnees::remplirSite(Site *site)
 {
     QSqlQuery query;
@@ -170,16 +170,20 @@ void BaseDeDonnees::remplirSite(Site *site)
     }
 }
 
+/*!
+ * \brief Remplie le Quizz \a quizz avec les enregistrements de la table Question associe a la borne du nom de \a nomBorne
+ */
 void BaseDeDonnees::remplirQuizz(Quizz *quizz, QString nomBorne)
 {
     QSqlQuery query;
     Question *question;
 
     if(!query.exec(QString("SELECT Question.Question, Question.BonneReponse, Question.MauvaiseReponse1,"
-                   " Question.MauvaiseReponse2, Question.MauvaiseReponse3, Question.Commentaire FROM Question,"
-                   " Borne WERE Borne.Nom = Question.").append(nomBorne).append("ORDER BY Random() LIMIT ").append(NB_MAX_QUESTIONS).append(";")))
+                   " Question.MauvaiseReponse2, Question.MauvaiseReponse3, Question.Commentaire FROM Question"
+                   "  WHERE  Question.NomBorne = '").append(nomBorne.toUpper()).append("' ORDER BY Random() LIMIT ").append(NB_MAX_QUESTION_PAR_QUIZZ).append(";")))
 
     {
+        qDebug()<<query.lastQuery();
         qDebug()<<query.lastError().text();
     }
     else
@@ -188,24 +192,42 @@ void BaseDeDonnees::remplirQuizz(Quizz *quizz, QString nomBorne)
         while(query.next())
         {
             question = new Question(quizz);
-            question->setNomBorne(nomBorne);
+            question->setNomBorne(nomBorne.toUpper());
             question->setQuestion(query.value(0).toString());
             question->setBonneReponse(query.value(1).toString());
             question->setMauvaiseReponse1(query.value(2).toString());
             question->setMauvaiseReponse2(query.value(3).toString());
-            question->setMauvaiseReponse2(query.value(4).toString());
+            question->setMauvaiseReponse3(query.value(4).toString());
             //question->setCommentaire(query.value(5).toString());
             quizz->ajouterQuestion(question);
         }
     }
 }
 
+/*!
+ * \brief Supprime tout le contenu de la base de donnee
+ */
 void BaseDeDonnees::clear()
 {
     QSqlQuery query;
     if(BDD_VERBOSE){qDebug("suppression de la base de donnees");}
-    if(!query.exec("DELETE FROM Borne, Question;"))
+    if(!query.exec("DELETE FROM Borne;"))
     {
             qDebug("echec de la suppression de la base de donnee");
     }
+    if(!query.exec("DELETE FROM Question;"))
+    {
+            qDebug("echec de la suppression de la base de donnee");
+    }
+}
+
+void BaseDeDonnees::majBDD(QString adresseWebBdd)
+{
+    QSqlDatabase bddWeb = QSqlDatabase::addDatabase("QMYSQL");
+    bddWeb.setHostName(adresseWebBdd);
+    bddWeb.setDatabaseName("nomBase");
+    bddWeb.setUserName("user");
+    bddWeb.setPassword("password");
+    bddWeb.setPort(0);
+    bddWeb.open();
 }

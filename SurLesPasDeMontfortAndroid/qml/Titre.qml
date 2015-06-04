@@ -1,5 +1,9 @@
 import QtQuick 2.0
 
+
+/*!
+  \qmlclass Titre
+*/
 Rectangle {
     property string text: ""
     height: 60
@@ -7,7 +11,7 @@ Rectangle {
     id:root
 
     Text {
-        id: text1
+        id: champText
         color: "#ffffff"
         text: root.text
         verticalAlignment: Text.AlignVCenter

@@ -1,6 +1,10 @@
 #include "site.h"
 
-
+/*!
+  \class Site
+  \brief La classe Site contient les Bornes du parcours
+  \inmodule Parcours
+ */
 
 
 Site::Site(QObject *parent) : QObject(parent)

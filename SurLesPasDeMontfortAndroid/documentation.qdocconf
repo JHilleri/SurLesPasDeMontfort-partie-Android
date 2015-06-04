@@ -1,0 +1,21 @@
+#include(compat.qdocconf)
+#include($QT_INSTALL_DOCS/global/qt-module-defaults.qdocconf)
+indexes = C:/Qt/Docs/Qt-5.4/qtcore/qtcore.index
+url = http://doc.qt.io/qt-5
+outputdir   = ../../../documentation
+headerdirs  = .
+sourcedirs  = . qml
+exampledirs = .
+imagedirs   = .
+
+project = SurLesPasDeMontfort
+description = projet de BTS IRIS
+
+outputformats = HTML
+sources.fileextensions = "*.cpp *.qdoc *.mm *.qml"
+headers.fileextensions = "*.h *.ch *.h++ *.hh *.hpp *.hxx"
+
+edition.Desktop = QtCore QtGui Qt3SupportLight
+
+outputprefixes = QML
+outputprefixes.QML = QML-

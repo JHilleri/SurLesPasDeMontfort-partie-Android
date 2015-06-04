@@ -1,6 +1,15 @@
 #include "borne.h"
 
+/*!
+  \class Borne
+  \brief La classe Borne decrit une borne du parcours
+  \inmodule Parcours
+ */
 
+
+/*!
+ * \brief Construit une Borne et la lie a l'objet \a parent
+ */
 Borne::Borne(QObject *parent) : QObject(parent),m_altitude(0),m_latitude(0),m_longitude(0)
 {
     connect(this,SIGNAL(urlPisteAudioChanged()),this,SLOT(testUrlPisteAudio()));
@@ -20,8 +29,6 @@ Borne::Borne( QDomElement &element,QObject *parent) : QObject(parent)
     setAltitude(element.attribute("altitude","").toDouble());
     setLatitude(element.attribute("latitude","").toDouble());
     setLongitude(element.attribute("longitude","").toDouble());
-
-
 }
 
 Borne::~Borne()
@@ -29,7 +36,9 @@ Borne::~Borne()
 
 }
 
-
+/*!
+ * \brief donne le nom de la borne
+ */
 QString Borne::nom()const
 {
     return m_nom;
@@ -77,14 +86,14 @@ QString Borne::text()const
 {
     if(m_urlText.isEmpty())
     {
-        qDebug() << "la borne '" << m_nom << "' n'a pas de text";
-        return QString("la borne n'a pas de text");
+        qDebug() << "la borne '" << m_nom << "' n'a pas de texte";
+        return QString("la borne n'a pas de texte");
     }
     QFile text(m_urlText);
     if(!text.exists())
     {
-        qDebug() << "le fichier text '" << m_urlText << "' associe a la borne '" << m_nom << "' n'existe pas,";
-        return QString("le fichier text '").append(m_urlText).append("' n'existe pas,");
+        qDebug() << "le fichier texte '" << m_urlText << "' associe a la borne '" << m_nom << "' n'existe pas,";
+        return QString("le fichier texte '").append(m_urlText).append("' n'existe pas,");
     }
     if(text.open(QIODevice::ReadOnly))
     {

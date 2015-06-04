@@ -1,5 +1,11 @@
 #include "question.h"
 
+/*!
+  \class Question
+  \brief La classe Question regroupe les donnees decrivant une question de quizz
+  \inmodule Quizz
+ */
+
 
 Question::Question(QObject *parent) : QObject(parent)
 {
@@ -13,11 +19,11 @@ Question::~Question()
 
 Question::Question(const QDomElement &datas, QObject *parent): QObject(parent),
     m_bonneReponse(datas.attribute("bonneReponse")),
-    m_mauvaiseReponse1(datas.attribute("m_mauvaiseReponse1")),
-    m_mauvaiseReponse2(datas.attribute("m_mauvaiseReponse2")),
-    m_mauvaiseReponse3(datas.attribute("m_mauvaiseReponse3")),
-    m_question(datas.attribute("m_question")),
-    m_nomBorne(datas.attribute("borne"))
+    m_mauvaiseReponse1(datas.attribute("mauvaiseReponse1")),
+    m_mauvaiseReponse2(datas.attribute("mauvaiseReponse2")),
+    m_mauvaiseReponse3(datas.attribute("mauvaiseReponse3")),
+    m_question(datas.attribute("question")),
+    m_nomBorne(datas.attribute("borne").toUpper())
 {}
 
 QString Question::question()const
@@ -83,15 +89,15 @@ void Question::setMauvaiseReponse3(QString mauvaiseReponse3)
 void Question::setDatas(const QDomElement &datas)
 {
     this->setBonneReponse(datas.attribute("bonneReponse"));
-    this->setMauvaiseReponse1(datas.attribute("m_mauvaiseReponse1"));
-    this->setMauvaiseReponse2(datas.attribute("m_mauvaiseReponse2"));
-    this->setMauvaiseReponse3(datas.attribute("m_mauvaiseReponse3"));
-    this->setQuestion(datas.attribute("m_question"));
+    this->setMauvaiseReponse1(datas.attribute("mauvaiseReponse1"));
+    this->setMauvaiseReponse2(datas.attribute("mauvaiseReponse2"));
+    this->setMauvaiseReponse3(datas.attribute("mauvaiseReponse3"));
+    this->setQuestion(datas.attribute("question"));
     this->setNomBorne(datas.attribute("borne"));
 }
 
 void Question::setNomBorne(QString nomBorne)
 {
-    m_nomBorne = nomBorne;
+    m_nomBorne = nomBorne.toUpper();
     emit nomBorneChanged();
 }

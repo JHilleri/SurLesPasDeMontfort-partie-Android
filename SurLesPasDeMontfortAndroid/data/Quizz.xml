@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <racine>
-    <question  question="question" bonneReponse="bonneReponse" mauvaiseReponse1="mauvaiseReponse1" mauvaiseReponse2="mauvaiseReponse2" mauvaiseReponse3="mauvaiseReponse3" borne="r201" />
+    <question  question="question1" bonneReponse="bonneReponse" mauvaiseReponse1="mauvaiseReponse1" mauvaiseReponse2="mauvaiseReponse2" mauvaiseReponse3="mauvaiseReponse3" borne="r201" />
+    <question question="question2" bonneReponse="bonneReponse2" mauvaiseReponse1="mauvaiseReponse" mauvaiseReponse2="mauvaiseReponse" mauvaiseReponse3="mauvaiseReponse" borne="r201" />
 </racine>

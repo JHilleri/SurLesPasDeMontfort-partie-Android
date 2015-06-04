@@ -1,6 +1,12 @@
 #include "fenetre.h"
 
 
+/*!
+  \class Fenetre
+  \brief La classe Fenetre fournit a l'IHM l'acces aux donnees
+  \inmodule IHM
+ */
+
 
 Fenetre::Fenetre(QObject *parent) : QObject(parent),m_borneSelectionne(&borneVide),m_gps(this),m_site(this),m_borneAProximite(&borneVide),m_quizz(this)
 {
@@ -27,7 +33,6 @@ Fenetre::Fenetre(QObject *parent) : QObject(parent),m_borneSelectionne(&borneVid
 
 void Fenetre::start()
 {
-
     m_engine.rootContext()->setContextProperty("fenetre",this);
     m_engine.load(QUrl(QStringLiteral("qrc:/qml/FenetrePrincipale.qml")));
 }
@@ -57,9 +62,11 @@ void Fenetre::setBorneSelectionne(Borne *borneSelectionne)
 void Fenetre::lireQuizz(QString nomBorne)
 {
     bdd.remplirQuizz(&m_quizz,nomBorne);
+    if(m_quizz.count() > 0)
+        m_quizz.debutQuizz();
 }
 
-void Fenetre::lireSiteXML()
+void Fenetre::lireXML()
 {
     QDomDocument doc("Site_xml");
     QFile fichier(":/data/Site.xml");
@@ -67,7 +74,7 @@ void Fenetre::lireSiteXML()
     QDomNode i;
     QDomElement element;
     Borne *nouvelleBorne;
-
+    Question *nouvelleQuestion;
 
     if (!fichier.open(QIODevice::ReadOnly) || !doc.setContent(&fichier))
     {
@@ -76,6 +83,7 @@ void Fenetre::lireSiteXML()
          return;
      }
      fichier.close();
+
      bdd.clear();
      racine = doc.documentElement();
      i = racine.firstChild();
@@ -84,14 +92,38 @@ void Fenetre::lireSiteXML()
      {
          element = i.toElement();
          nouvelleBorne = new Borne(element,this);
-         bdd.ajouterEnregistrement(nouvelleBorne);
+         bdd.ajouterBorne(nouvelleBorne);
          delete nouvelleBorne;
 
          i = i.nextSibling();
      }
 
+
+
+     fichier.setFileName(":/data/Quizz.xml");
+     if (!fichier.open(QIODevice::ReadOnly) || !doc.setContent(&fichier))
+     {
+          fichier.close();
+          qDebug("echec de l'ouverture du fichier xml");
+          return;
+      }
+     fichier.close();
+     racine = doc.documentElement();
+     i = racine.firstChild();
+     while(!i.isNull())
+     {
+         element = i.toElement();
+         nouvelleQuestion = new Question(element,this);
+         bdd.ajouterQuestion(nouvelleQuestion);
+         delete nouvelleQuestion;
+
+         i = i.nextSibling();
+     }
+
+     // mise a jour des données du site
      bdd.remplirSite(&m_site);
 }
+
 
 //http://stackoverflow.com/questions/2660201/what-parameters-should-i-use-in-a-google-maps-url-to-go-to-a-lat-lon
 void Fenetre::afficherCarte(QString nomBorne)
@@ -115,7 +147,7 @@ void Fenetre::afficherItineraire(QString nomBorne)
 }
 
 
-void Fenetre::testsPosition(const QGeoPositionInfo &info)
+void Fenetre::testsPosition(QGeoPositionInfo &info)
 {
     if(FENETRE_VERBOSE){qDebug("debut test positions");}
 

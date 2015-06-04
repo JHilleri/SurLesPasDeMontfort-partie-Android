@@ -1,6 +1,13 @@
 #include "foncteurs.h"
 
 
+/*!
+  \class FoncteurTestNomBorne
+  \brief Le predicat FoncteurTestNomBorne test si une borne a le nom recherche
+  \inmodule Parcours
+ */
+
+
 FoncteurTestNomBorne::FoncteurTestNomBorne(QString nom):m_nom(nom)
 {}
 
@@ -8,6 +15,14 @@ bool FoncteurTestNomBorne::operator ()( QObject * const borne)
 {
     return (borne->property("nom") == m_nom);
 }
+
+
+/*!
+  \class FoncteurTestPosition
+  \brief Le foncteur FoncteurTestPosition permet de cherche la borne la plus proche d'une position
+  \inmodule Parcours
+ */
+
 
 FoncteurTestPosition::FoncteurTestPosition(const QGeoCoordinate &coordonnees):m_coordonnees(coordonnees),m_borneLaPlusproche(NULL),m_distanceMin(SENSIBILITE_DETECTION_ZONE + 1){}
 

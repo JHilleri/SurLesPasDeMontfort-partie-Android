@@ -6,7 +6,9 @@ import site 1.0
 
 
 
-
+/*!
+  \qmlclass FenetrePrincipale
+*/
 ApplicationWindow {
     width: 640
     height: 480
@@ -51,7 +53,7 @@ ApplicationWindow {
                     onTriggered:
                     {
                         root.fenetreEnCours = enumFenetres.fenetreSite;
-                        fenetre.lireSiteXML();
+                        fenetre.lireXML()
                     }
                 }
                 MenuItem{
@@ -65,7 +67,9 @@ ApplicationWindow {
                 }
                 MenuItem{
                     text: "jouer quizz"
+                    visible: (root.fenetreEnCours === enumFenetres.fenetreBorne)?true:false
                     onTriggered: {
+                        fenetre.lireQuizz(fenetre.borneSelectionne.nom)
                         root.fenetreEnCours = enumFenetres.fenetreQuizz;
                         fenetreQuizz.initQuestion()
                     }

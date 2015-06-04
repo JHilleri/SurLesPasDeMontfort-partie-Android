@@ -1,0 +1,28 @@
+/*!
+    \page index.html
+
+    \title SurLesPasDeMontfort
+    C++ :
+    \list
+        \li \l{Borne}
+        \li \l{Site}
+        \li \l{Quizz}
+        \li \l{Question}
+        \li \l{GPS}
+        \li \l{FoncteurTestNomBorne}
+        \li \l{FoncteurTestPosition}
+        \li \l{Fenetre}
+        \li \l{BaseDeDonnees}
+    \endlist
+    QML :
+    \list
+        \li \l{Bouton}
+        \li \l{BoutonQuizz}
+        \li \l{FenetrePrincipale}
+        \li \l{FenetreBorne}
+        \li \l{FenetreSite}
+        \li \l{FenetreQuizz}
+        \li \l{LecteurAudio}
+        \li \l{Titre}
+    \endlist
+*/

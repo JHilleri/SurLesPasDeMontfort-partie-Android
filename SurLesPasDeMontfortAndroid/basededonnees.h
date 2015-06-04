@@ -22,12 +22,14 @@ public:
     BaseDeDonnees();
     ~BaseDeDonnees();
 
-    void ajouterEnregistrement(Borne *borne);
+    void ajouterBorne(Borne *borne);
     void ajouterQuestion(Question *question);
     void remplirSite(Site *site);
     void remplirQuizz(Quizz *quizz, QString nomBorne);
 
     void clear();
+
+    void majBDD(QString adresseWebBdd);
 
 protected:
     void creationTables();

@@ -3,7 +3,9 @@ import QtQuick.Controls 1.3
 import QtQuick.Dialogs 1.2
 import site 1.0
 
-
+/*!
+  \qmlclass FenetreBorne
+*/
 Rectangle {
     id: root
     anchors.fill: parent

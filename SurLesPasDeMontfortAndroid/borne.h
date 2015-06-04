@@ -9,19 +9,20 @@
 
 #include "config.h"
 
+
 class Borne : public QObject
 {
     Q_OBJECT
 
-    Q_PROPERTY(QString nom READ nom NOTIFY nomChanged)
-    Q_PROPERTY(QString adresse READ adresse NOTIFY adresseChanged)
-    Q_PROPERTY(QString description READ description NOTIFY descriptionChanged)
-    Q_PROPERTY(double latitude READ latitude NOTIFY latitudeChanged)
-    Q_PROPERTY(double longitude READ longitude NOTIFY longitudeChanged)
-    Q_PROPERTY(double altitude READ altitude NOTIFY altitudeChanged)
-    Q_PROPERTY(QString urlImage READ urlImage NOTIFY urlImageChanged)
-    Q_PROPERTY(QString urlPisteAudio READ urlPisteAudio NOTIFY urlPisteAudioChanged)
-    Q_PROPERTY(QString text READ text NOTIFY textChanged)
+    Q_PROPERTY(QString nom READ nom WRITE setNom NOTIFY nomChanged)
+    Q_PROPERTY(QString adresse READ adresse WRITE setAdresse NOTIFY adresseChanged)
+    Q_PROPERTY(QString description READ description WRITE setDescription NOTIFY descriptionChanged)
+    Q_PROPERTY(double latitude READ latitude WRITE setLatitude NOTIFY latitudeChanged)
+    Q_PROPERTY(double longitude READ longitude WRITE setLongitude NOTIFY longitudeChanged)
+    Q_PROPERTY(double altitude READ altitude WRITE setAltitude NOTIFY altitudeChanged)
+    Q_PROPERTY(QString urlImage READ urlImage WRITE setUrlImage NOTIFY urlImageChanged)
+    Q_PROPERTY(QString urlPisteAudio READ urlPisteAudio WRITE setUrlPisteAudio NOTIFY urlPisteAudioChanged)
+    Q_PROPERTY(QString text READ text WRITE setUrlText NOTIFY textChanged)
     Q_PROPERTY(bool urlPisteAudioEstValid READ urlPisteAudioEstValid NOTIFY urlPisteAudioEstValidChanged)
 
 

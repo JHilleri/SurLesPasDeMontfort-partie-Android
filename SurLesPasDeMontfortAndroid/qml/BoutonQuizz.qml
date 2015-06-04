@@ -1,5 +1,8 @@
 import QtQuick 2.0
 
+/*!
+  \qmlclass BoutonQuizz
+*/
 Rectangle {
     signal clicked
     property string text: ""
@@ -8,8 +11,8 @@ Rectangle {
     color: "#ffffff"
     border.color: "#000000"
     border.width: 1
-    border.pixelAligned:
     Text{
+        id:champText
         color: "#000000"
         text: root.text
         verticalAlignment: Text.AlignVCenter
@@ -19,6 +22,7 @@ Rectangle {
         fontSizeMode: Text.Fit
     }
     MouseArea{
+        id:mouseArea
         anchors.fill: parent
         onClicked: {
             console.debug("quizz : choix de la reponse : " + root.text)

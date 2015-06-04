@@ -5,8 +5,13 @@ import QtQuick.Dialogs 1.2
 import QtQuick.Layouts 1.1
 import quizz 1.0
 
+/*!
+  \qmlclass FenetreQuizz
+*/
 Rectangle{
     id:root
+
+    property int score : 0
 
     signal retour
     function initQuestion()
@@ -27,15 +32,31 @@ Rectangle{
         console.debug(tab);
         reponse4.text = tab[0]
     }
+
+    /*!
+     *
+     */
     function verifierResultat(propositionChoisie)
     {
         if(propositionChoisie === fenetre.quizz.questionEnCours.bonneReponse)
         {
             console.debug("bonne reponse")
+            ++root.score;
         }
         else
         {
             console.debug("mauvaise reponse")
+            --root.score;
+        }
+        if(fenetre.quizz.questionSuivante())
+        {
+            root.initQuestion();
+        }
+        else
+        {
+
+            console.debug("le score est de : " + root.score);
+            retour();
         }
     }
 
