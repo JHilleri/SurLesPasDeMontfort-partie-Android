@@ -2,19 +2,24 @@
 
 /*!
   \class Borne
-  \brief La classe Borne decrit une borne du parcours
+  \brief La classe Borne contient toutes les informations sur une borne du parcours.
   \inmodule Parcours
  */
 
 
 /*!
- * \brief Construit une Borne et la lie a l'objet \a parent
+ * \brief Construit une Borne
+ * Construit une Borne et la lie a l'objet \a parent, ce \a parent est le \l{QObject} responsable de sa destruction.
  */
 Borne::Borne(QObject *parent) : QObject(parent),m_altitude(0),m_latitude(0),m_longitude(0)
 {
     connect(this,SIGNAL(urlPisteAudioChanged()),this,SLOT(testUrlPisteAudio()));
 }
 
+/*!
+ * \brief Construit une Borne a partire d'un fichier XML
+ * Construit une Borne a partire de l'element \a element d'un fichier XML et la lie a l'objet \a parent, ce \a parent est le \l{QObject} responsable de sa destruction.
+ */
 Borne::Borne( QDomElement &element,QObject *parent) : QObject(parent)
 {
     connect(this,SIGNAL(urlPisteAudioChanged()),this,SLOT(testUrlPisteAudio()));
@@ -44,36 +49,57 @@ QString Borne::nom()const
     return m_nom;
 }
 
+/*!
+ * \brief donne l'adresse de la borne
+ */
 QString Borne::adresse()const
 {
     return m_adresse;
 }
 
+/*!
+ * \brief donne la description de la borne
+ */
 QString Borne::description()const
 {
     return m_description;
 }
 
+/*!
+ * \brief donne la latitude de la borne
+ */
 double Borne::latitude()const
 {
     return m_latitude;
 }
 
+/*!
+ * \brief donne la logitude de la borne
+ */
 double Borne::longitude()const
 {
     return m_longitude;
 }
 
+/*!
+ * \brief donne l'altitude de la borne
+ */
 double Borne::altitude()const
 {
     return m_altitude;
 }
 
+/*!
+ * \brief donne le chemin vers l'image de la borne
+ */
 QString Borne::urlImage()const
 {
     return m_urlImage;
 }
 
+/*!
+ * \brief donne le chemin vers le fichier audio associé a la borne de la borne
+ */
 QString Borne::urlPisteAudio()const
 {
     return m_urlPisteAudio;
@@ -81,7 +107,9 @@ QString Borne::urlPisteAudio()const
 
 
 
-
+/*!
+ * \brief retourne le text contenu dans le fichier text associé a la borne
+ */
 QString Borne::text()const
 {
     if(m_urlText.isEmpty())
@@ -105,8 +133,6 @@ QString Borne::text()const
         return QString("echec de louverture du fichier ': '").append(m_urlText).append("'");
     }
 }
-
-
 
 
 void Borne::setNom(QString nom)
@@ -170,7 +196,9 @@ void Borne::setUrlText(QString urlText)
     emit textChanged();
 }
 
-
+/*!
+ * \brief retourne l'adresse du text
+ */
 QString Borne::urlText()const
 {
     return m_urlText;
@@ -190,12 +218,17 @@ void Borne::operator=(const Borne &borne)
     this->testUrlPisteAudio();
 }
 
-
+/*!
+ * \brief retourne la distance entre la borne et la \a coordonees \l{QGeoCoordinate} en mêtre.
+ */
 double Borne::distanceTo(const QGeoCoordinate &coordonees)
 {
     return coordonees.distanceTo(QGeoCoordinate(this->latitude(),this->longitude()));
 }
 
+/*!
+ * \brief Test l'égalité avec la \l{Borne} \a borne2.
+ */
 bool Borne::operator ==(const Borne &borne2)const
 {
     return ((this->adresse() == borne2.adresse())
@@ -210,11 +243,17 @@ bool Borne::operator ==(const Borne &borne2)const
             );
 }
 
+/*!
+ * \brief Indique si le fichier audio est valide.
+ */
 bool Borne::urlPisteAudioEstValid()const
 {
     return m_urlPisteAudioEstValid;
 }
 
+/*!
+ * \brief Vérifie que l'adresse du fichier audio est valide.
+ */
 void Borne::testUrlPisteAudio()
 {
     if(m_urlPisteAudio.isEmpty() || !QFile(":" + QUrl(m_urlPisteAudio).path()).exists())

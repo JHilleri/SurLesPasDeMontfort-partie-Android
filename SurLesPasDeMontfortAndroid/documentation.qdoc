@@ -2,27 +2,54 @@
     \page index.html
 
     \title SurLesPasDeMontfort
-    C++ :
-    \list
-        \li \l{Borne}
-        \li \l{Site}
-        \li \l{Quizz}
-        \li \l{Question}
-        \li \l{GPS}
-        \li \l{FoncteurTestNomBorne}
-        \li \l{FoncteurTestPosition}
-        \li \l{Fenetre}
-        \li \l{BaseDeDonnees}
-    \endlist
-    QML :
-    \list
-        \li \l{Bouton}
-        \li \l{BoutonQuizz}
-        \li \l{FenetrePrincipale}
-        \li \l{FenetreBorne}
-        \li \l{FenetreSite}
-        \li \l{FenetreQuizz}
-        \li \l{LecteurAudio}
-        \li \l{Titre}
-    \endlist
+    
+	Modèle (C++) :
+	\list
+		\li parcours :
+		\list
+			\li \l{Borne}
+			\li \l{Site}
+		\endlist
+		\li quizz :
+		\list
+			\li \l{Question}
+			\li \l{Quizz}
+		\endlist
+		\li acquisition des données :
+		\list
+			\li \l{BaseDeDonnees}
+			\li \l{GPS}
+		\endlist
+		\li foncteurs :
+		\list
+			\li \l{FoncteurTestNomBorne}
+			\li \l{FoncteurTestPosition}
+		\endlist
+	\endlist
+	
+	Controlleur (C++) :
+	\list
+		\li \l{Fenetre}
+	\endlist
+	
+	Vue (QML) :
+	\list
+		\li Composants :
+		\list
+			\li \l{Bouton}
+			\li \l{BoutonQuizz}
+			\li \l{Titre}
+		\endlist
+		\li Fenetre :
+		\list
+			\li \l{FenetrePrincipale}}
+		\endlist
+		\li Sous-Fenetre :
+		\list
+			\li \l{FenetreBorne}
+			\li \l{FenetreSite}
+			\li \l{FenetreQuizz}
+			\li \l{LecteurAudio}
+		\endlist
+	\endlist
 */

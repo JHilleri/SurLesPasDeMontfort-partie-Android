@@ -8,15 +8,15 @@
 
 
 Question::Question(QObject *parent) : QObject(parent)
-{
-
-}
+{}
 
 Question::~Question()
-{
+{}
 
-}
-
+/*!
+ * \brief Construit une \l{Question} a partire d'un fichier XML.
+ *
+ */
 Question::Question(const QDomElement &datas, QObject *parent): QObject(parent),
     m_bonneReponse(datas.attribute("bonneReponse")),
     m_mauvaiseReponse1(datas.attribute("mauvaiseReponse1")),
@@ -86,6 +86,9 @@ void Question::setMauvaiseReponse3(QString mauvaiseReponse3)
     emit mauvaiseReponse3Changed();
 }
 
+/*!
+ * \brief Remplie la \l{Question} avec l'élement XML \a datas.
+ */
 void Question::setDatas(const QDomElement &datas)
 {
     this->setBonneReponse(datas.attribute("bonneReponse"));

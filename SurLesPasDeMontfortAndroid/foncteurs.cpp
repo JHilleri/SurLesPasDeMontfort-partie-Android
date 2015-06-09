@@ -13,13 +13,13 @@ FoncteurTestNomBorne::FoncteurTestNomBorne(QString nom):m_nom(nom)
 
 bool FoncteurTestNomBorne::operator ()( QObject * const borne)
 {
-    return (borne->property("nom") == m_nom);
+    return (borne->property("nom").toString().toUpper() == m_nom.toUpper());
 }
 
 
 /*!
   \class FoncteurTestPosition
-  \brief Le foncteur FoncteurTestPosition permet de cherche la borne la plus proche d'une position
+  \brief Le foncteur FoncteurTestPosition permet de chercher la borne la plus proche d'une position
   \inmodule Parcours
  */
 

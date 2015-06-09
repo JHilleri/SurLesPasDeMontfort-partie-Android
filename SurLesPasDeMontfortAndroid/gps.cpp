@@ -6,6 +6,9 @@
   \inmodule Parcours
  */
 
+/*!
+ * \brief Met en place le GPS.
+ */
 GPS::GPS(QObject *parent):QObject(parent)
 {
     m_source = QGeoPositionInfoSource::createDefaultSource(0);

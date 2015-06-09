@@ -2,8 +2,10 @@
 
 /*!
  * \class BaseDeDonnees
- * \brief La classe BaseDeDonnees regroupe les interactions avec la base de donnee
+ * \brief La classe BaseDeDonnees fournit les données au reste de l'application,
  * \inmodule BDD
+ * elle encapsule les connexions aux bases de données (mySQL et QSLite) et les requetes SQL.
+ * La base de données SQLite est stocké sur le téléphone de l'utilisateur et est utilisé pour fournir les données a l'application, la base de données MySQL est sur le serveur et permet la mise a jour de la base de données SQLite.
  */
 
 /*!
@@ -37,7 +39,7 @@ BaseDeDonnees::~BaseDeDonnees()
 }
 
 /*!
- * \brief Creez les tables de la base de donnee
+ * \brief Creez les tables de la base de donnee SQLite
  */
 void BaseDeDonnees::creationTables()
 {
@@ -73,7 +75,7 @@ void BaseDeDonnees::creationTables()
 }
 
 /*!
- * \brief Ajoute la Borne \a borne dans la table Borne de la base de donnee
+ * \brief Ajoute la \l{Borne} \a borne dans la table Borne de la base de données
  */
 void BaseDeDonnees::ajouterBorne(Borne *borne)
 {
@@ -97,6 +99,7 @@ void BaseDeDonnees::ajouterBorne(Borne *borne)
     else{
         if(BDD_VERBOSE)
         {
+            //reconstitution de la requete executée
             QString requete = m_queryAjouterBorne->lastQuery();
             QMapIterator<QString, QVariant> i(m_queryAjouterBorne->boundValues());
             while (i.hasNext())
@@ -110,7 +113,7 @@ void BaseDeDonnees::ajouterBorne(Borne *borne)
 }
 
 /*!
- * \brief Ajoute la Question \a question dans la table Question de la base de donnee
+ * \brief Ajoute la \l{Question} \a question dans la table Question de la base de données SQLite
  */
 void BaseDeDonnees::ajouterQuestion(Question *question)
 {
@@ -129,6 +132,7 @@ void BaseDeDonnees::ajouterQuestion(Question *question)
     }
     if(BDD_VERBOSE)
     {
+        //reconstitution de la requete executée
         QString requete = m_queryAjouterQuestion->lastQuery();
         QMapIterator<QString, QVariant> i(m_queryAjouterQuestion->boundValues());
         while (i.hasNext())
@@ -141,7 +145,7 @@ void BaseDeDonnees::ajouterQuestion(Question *question)
 }
 
 /*!
- * \brief Remplie le Site \a site avec les enregistrements de la table Borne de la base de donnee
+ * \brief Remplie le \l{Site} \a site avec les enregistrements de la table Borne de la base de données SQLite
  */
 void BaseDeDonnees::remplirSite(Site *site)
 {
@@ -171,7 +175,7 @@ void BaseDeDonnees::remplirSite(Site *site)
 }
 
 /*!
- * \brief Remplie le Quizz \a quizz avec les enregistrements de la table Question associe a la borne du nom de \a nomBorne
+ * \brief Remplie le \l{Quizz} \a quizz avec les enregistrements de la table Question associe a la borne du nom de \a nomBorne
  */
 void BaseDeDonnees::remplirQuizz(Quizz *quizz, QString nomBorne)
 {
@@ -205,7 +209,7 @@ void BaseDeDonnees::remplirQuizz(Quizz *quizz, QString nomBorne)
 }
 
 /*!
- * \brief Supprime tout le contenu de la base de donnee
+ * \brief Supprime tout le contenu de la base de donnee SQLite.
  */
 void BaseDeDonnees::clear()
 {
@@ -221,6 +225,9 @@ void BaseDeDonnees::clear()
     }
 }
 
+/*!
+ * \brief Remplie la base de données SQLite avec le contenu d'un fichier XML, cette fonction sert pour avoir des données sans passer par la base de données MySQL.
+ */
 void BaseDeDonnees::majBDD(QString adresseWebBdd)
 {
     QSqlDatabase bddWeb = QSqlDatabase::addDatabase("QMYSQL");

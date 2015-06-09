@@ -3,7 +3,8 @@
 
 /*!
   \class Fenetre
-  \brief La classe Fenetre fournit a l'IHM l'acces aux donnees
+  \brief La classe Fenetre remplie la fonction de Contrôleur,
+   elle contient le \l{QQmlApplicationEngine} qui execute l'IHM et les classes du modèle.
   \inmodule IHM
  */
 
@@ -31,6 +32,9 @@ Fenetre::Fenetre(QObject *parent) : QObject(parent),m_borneSelectionne(&borneVid
      connect(&m_site,SIGNAL(listeCleared()),this,SLOT(resetBorneSelectionne()));
 }
 
+/*!
+ * \brief Execute l'application QML et lui fournit un acces vers le modèle sous forme de pointeur globale.
+ */
 void Fenetre::start()
 {
     m_engine.rootContext()->setContextProperty("fenetre",this);
@@ -39,6 +43,9 @@ void Fenetre::start()
 
 Fenetre::~Fenetre(){}
 
+/*!
+ * \brief Définie la \l{Borne} identifié par le nom \p nomBorne comme borne séléctionné par l'utilisateur.
+ */
 void Fenetre::setBorneSelectionne(QString nomBorne)
 {
     if(nomBorne == m_borneSelectionne->nom())return;
@@ -53,12 +60,20 @@ void Fenetre::setBorneSelectionne(QString nomBorne)
     }
 }
 
+
+/*!
+ * \brief Définie la \l{Borne}  \p borneSelectionne comme borne séléctionné par l'utilisateur.
+ */
 void Fenetre::setBorneSelectionne(Borne *borneSelectionne)
 {
     m_borneSelectionne = borneSelectionne;
     emit borneSelectionneChanged();
 }
 
+/*!
+ * \brief Remplie le quizz (\l{Quizz}),
+ *  avec des \l{Question} associé a la borne du nom \p nomBorne grace a la \l{BaseDeDonnees}
+ */
 void Fenetre::lireQuizz(QString nomBorne)
 {
     bdd.remplirQuizz(&m_quizz,nomBorne);
@@ -66,6 +81,9 @@ void Fenetre::lireQuizz(QString nomBorne)
         m_quizz.debutQuizz();
 }
 
+/*!
+ * \brief Remplie la base SQLite avec le contenu d'un fichier XML
+ */
 void Fenetre::lireXML()
 {
     QDomDocument doc("Site_xml");
@@ -120,12 +138,13 @@ void Fenetre::lireXML()
          i = i.nextSibling();
      }
 
-     // mise a jour des donnÃ©es du site
+     // mise a jour des données du site
      bdd.remplirSite(&m_site);
 }
 
-
-//http://stackoverflow.com/questions/2660201/what-parameters-should-i-use-in-a-google-maps-url-to-go-to-a-lat-lon
+/*!
+ * \brief Ouvre une application pour afficher une carte montrant l'emplacement de la borne du nom de \p nomBorne.
+ */
 void Fenetre::afficherCarte(QString nomBorne)
 {
     Borne *borne =  m_site.getBorneByName(nomBorne);
@@ -136,6 +155,9 @@ void Fenetre::afficherCarte(QString nomBorne)
     }
 }
 
+/*!
+ * \brief Ouvre une application pour afficher un itineraire vers la borne du nom de \p nomBorne.
+ */
 void Fenetre::afficherItineraire(QString nomBorne)
 {
     Borne *borne =  m_site.getBorneByName(nomBorne);
@@ -146,7 +168,10 @@ void Fenetre::afficherItineraire(QString nomBorne)
     }
 }
 
-
+/*!
+ * \brief Determine si l'utilisateur est a proximité d'une borne.
+ * Calcule la distance entre le point \p info et chaqune des \l{Borne} du \l{Site}, si la \l{Borne} la plus proche est a moin de SENSIBILITE_DETECTION_ZONE mêtres elle est definit comme borne a proximité.
+ */
 void Fenetre::testsPosition(QGeoPositionInfo &info)
 {
     if(FENETRE_VERBOSE){qDebug("debut test positions");}

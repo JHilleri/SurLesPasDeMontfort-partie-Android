@@ -2,7 +2,7 @@
 #include($QT_INSTALL_DOCS/global/qt-module-defaults.qdocconf)
 indexes = C:/Qt/Docs/Qt-5.4/qtcore/qtcore.index
 url = http://doc.qt.io/qt-5
-outputdir   = ../../../documentation
+outputdir   = ./../../../documentation
 headerdirs  = .
 sourcedirs  = . qml
 exampledirs = .

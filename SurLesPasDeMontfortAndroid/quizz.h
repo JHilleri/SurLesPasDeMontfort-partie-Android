@@ -11,7 +11,7 @@ class Quizz : public QObject
     Q_PROPERTY(QList<QObject *> liste READ liste NOTIFY listeChanged)
     Q_PROPERTY(int count READ count NOTIFY countChanged)
     Q_PROPERTY(Question* questionEnCours READ questionEnCours NOTIFY questionEnCoursChanged)
-    Q_PROPERTY(unsigned int triesCount READ triesCount WRITE setTriesCount NOTIFY triesCountChanged)
+    Q_PROPERTY(unsigned int nbEssaisEffectue READ nbEssaisEffectue WRITE setNbEssaisEffecte NOTIFY nbEssaisEffectueChanged)
 public:
     explicit Quizz(QObject *parent = 0);
     ~Quizz();
@@ -21,7 +21,7 @@ public:
     int count();
 
     Question *questionEnCours();
-    unsigned int triesCount() const;
+    unsigned int nbEssaisEffectue() const;
 
 signals:
     void listeChanged();
@@ -29,14 +29,14 @@ signals:
     void countChanged();
 
     void questionEnCoursChanged();
-    void triesCountChanged(unsigned int arg);
+    void nbEssaisEffectueChanged(unsigned int arg);
 
 public slots:
     void clear();
     //void setQuestionEnCours(Question *question);
     Q_INVOKABLE bool questionSuivante();
     void debutQuizz();
-    void setTriesCount(unsigned int arg);
+    void setNbEssaisEffecte(unsigned int arg);
 
 private:
     QList<QObject *> m_liste;
